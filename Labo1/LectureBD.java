@@ -8,8 +8,8 @@ import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Random;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -36,10 +36,7 @@ public class LectureBD {
  * Objet de connection à la BD
  */
 private static Connection connection;
-
-// Variables de comptage 
-private int nbFilm, nbPersonnes, nbClient;
-   
+  
    public LectureBD() {
       connectionBD();                     
    }
@@ -386,7 +383,6 @@ private int nbFilm, nbPersonnes, nbClient;
 	   }
 	   statement.registerOutParameter(1, java.sql.Types.INTEGER);
 	   //Execution de la requête
-	   System.out.println("Id " + id);
 	   statement.execute();
 	   statement.close();
 	  
@@ -431,7 +427,6 @@ private int nbFilm, nbPersonnes, nbClient;
 		   scenaristId.add(statementScen.getInt(1));
 		   statementScen.close();
 	   }
-	   //System.out.println("Taille : " + scenaristes.size());
 	   
 	   
 	   
@@ -440,7 +435,8 @@ private int nbFilm, nbPersonnes, nbClient;
 	   statementFilm.setInt(3, annee);
 	   statementFilm.setString(4, langue);
 	   statementFilm.setInt(5, duree);
-	   statementFilm.setInt(6, 0);
+	   Random generator = new Random();
+	   statementFilm.setInt(6, generator.nextInt(99)+1);
 	   statementFilm.setString(7, resume);
 	   statementFilm.setString(8, realisateurNom);
 	   statementFilm.registerOutParameter(1, java.sql.Types.INTEGER);
@@ -456,7 +452,6 @@ private int nbFilm, nbPersonnes, nbClient;
 	   
 	   //Association Film role
 	   for(Role role : roles) {
-		   //System.out.println("Adding relation");
 		   CallableStatement statementRole = connection.prepareCall("{call AddActorRoleFunc(?,?,?)");
 		   statementRole.setString(1, role.nom);
 		   statementRole.setInt(2, filmid);
@@ -471,7 +466,6 @@ private int nbFilm, nbPersonnes, nbClient;
 			   statementRole.close();
 		   }
 	   }
-	   //System.out.println("Fini relation");
 	   
 	   for(int scenaristIdInd : scenaristId){
 		   PreparedStatement statementAssoScenarist = connection.prepareStatement("INSERT INTO FilmScenarist VALUES(?,?)");
@@ -498,10 +492,7 @@ private int nbFilm, nbPersonnes, nbClient;
 	   }
 	   
 	   
-	   
-
-	   
-
+	
    }
    
    private void insertionClient(int id, String nomFamille, String prenom,
@@ -523,7 +514,6 @@ private int nbFilm, nbPersonnes, nbClient;
 	   statement.setString(9, province);
 	   statement.setString(10, codePostal);
 	   statement.setString(11, forfait);
-	   System.out.println(forfait);
 	   statement.setString(12, noCarte);
 	   statement.setInt(13,expMois);
 	   statement.setInt(14,expAnnee);
@@ -534,6 +524,7 @@ private int nbFilm, nbPersonnes, nbClient;
 	   try {
 		statement.execute();
 	} catch (Exception e) {
+		System.out.println("carte " + expMois + " " + expAnnee);
 		e.printStackTrace();
 	}
 	   statement.close();
@@ -572,10 +563,15 @@ private void connectionBD(){
    public static void main(String[] args) throws SQLException {
       LectureBD lecture = new LectureBD();
    
+      System.out.println("Ajout des Artistes...");
+      lecture.lecturePersonnes(args[0]);
       
-      //lecture.lecturePersonnes(args[0]);
+      System.out.println("Ajout des Films...");
       lecture.lectureFilms(args[1]);
-      //lecture.lectureClients(args[2]);
+      
+      System.out.println("Ajout des Clients...");
+      lecture.lectureClients(args[2]);
+      
       System.out.println("Done.");
       
       

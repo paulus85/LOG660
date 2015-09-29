@@ -148,7 +148,6 @@ CREATE TABLE RentalCharacteristics (
 CREATE TABLE Copy (
     copyId          INTEGER         NOT NULL,
     filmId          INTEGER         NOT NULL,
-    code            NUMBER(10)      NOT NULL,
     rented          NUMBER(1)       NOT NULL,
     PRIMARY KEY (copyId),
     FOREIGN KEY (filmId) REFERENCES Film
@@ -199,6 +198,11 @@ CREATE SEQUENCE GenreSeq
 
 DROP SEQUENCE ScenaristSeq;
 CREATE SEQUENCE ScenaristSeq
+    START WITH 1
+    INCREMENT BY 1;
+
+DROP SEQUENCE CopySeq;
+CREATE SEQUENCE CopySeq
     START WITH 1
     INCREMENT BY 1;
 
@@ -452,9 +456,14 @@ CREATE OR REPLACE FUNCTION AddFilmFunc (
     RETURN INTEGER
     IS dirId INTEGER;
     BEGIN
-        SELECT artistId INTO dirId
-        FROM Artist
-        WHERE nom = add_directorName;
+        BEGIN
+            SELECT artistId INTO dirId
+            FROM Artist
+            WHERE nom = add_directorName;
+        EXCEPTION 
+            WHEN NO_DATA_FOUND THEN
+            dirId := null;
+        END;
 
         INSERT INTO Film (
             filmId,
@@ -475,28 +484,13 @@ CREATE OR REPLACE FUNCTION AddFilmFunc (
             add_summary,
             dirId);
 
+        FOR indice IN 1..add_originalCopyNumber
+        LOOP
+            INSERT INTO Copy(copyId,rented,filmId) VALUES (CopySeq.NEXTVAL,0,FilmSeq.CURRVAL);
+        END LOOP;
+
         RETURN (FilmSeq.CURRVAL);
-	EXCEPTION
-		WHEN NO_DATA_FOUND THEN
-		  INSERT INTO Film (
-            filmId,
-            title,
-            year,
-            language,
-            duration,
-            originalCopyNumber,
-            summary,
-            directorId)
-        VALUES (
-            FilmSeq.NEXTVAL,
-            add_title,
-            add_year,
-            add_language,
-            add_duration,
-            add_originalCopyNumber,
-            add_summary,
-            null);
-        RETURN (FilmSeq.CURRVAL);
+	
     END AddFilmFunc;
 
 
@@ -522,6 +516,6 @@ FOR EACH ROW
 BEGIN
     IF (TO_DATE(:NEW.expirationYear || '-' || :NEW.expirationMonth, 'YYYY-MM') < TO_DATE(TO_CHAR(SYSDATE, 'YYYY-MM'), 'YYYY-MM')) THEN
     
-          RAISE_APPLICATION_ERROR(-2100, 'Carte de credit expiree');
+          RAISE_APPLICATION_ERROR(-20101, 'Carte de credit expiree');
     END IF;
 END;
