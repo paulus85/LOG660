@@ -14,6 +14,7 @@ public class Utilisateur {
 	
 	public Address adresse;
 	
+	
 	public Utilisateur() {
 		
 	}
