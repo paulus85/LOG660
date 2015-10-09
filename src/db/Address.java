@@ -56,4 +56,12 @@ public class Address {
 		
 	}
 
+	public Address(Integer addressId, String rue, String ville, String province, String codePostal) {
+		this.addressId = addressId;
+		this.rue = rue;
+		this.ville = ville;
+		this.province = province;
+		this.codePostal = codePostal;
+	}
+
 }

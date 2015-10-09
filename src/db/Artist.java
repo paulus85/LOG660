@@ -54,4 +54,12 @@ public class Artist {
 	
 	}
 
+	public Artist(Integer artistId, String name, Date birthday, String birthPlace, String biography) {
+		this.artistId = artistId;
+		this.name = name;
+		this.birthday = birthday;
+		this.birthPlace = birthPlace;
+		this.biography = biography;
+	}
+
 }
