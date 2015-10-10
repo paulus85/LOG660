@@ -9,7 +9,7 @@ public class Country {
 		return countryId;
 	}
 
-	private void setCountryId(Integer countryId) {
+	public void setCountryId(Integer countryId) {
 		this.countryId = countryId;
 	}
 
@@ -23,6 +23,11 @@ public class Country {
 
 	public Country() {
 		
+	}
+
+	public Country(Integer countryId, String countryName) {
+		this.countryId = countryId;
+		this.countryName = countryName;
 	}
 
 }

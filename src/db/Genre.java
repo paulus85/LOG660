@@ -9,7 +9,7 @@ public class Genre {
 		return genreId;
 	}
 
-	private void setGenreId(Integer genreId) {
+	public void setGenreId(Integer genreId) {
 		this.genreId = genreId;
 	}
 
@@ -23,6 +23,11 @@ public class Genre {
 
 	public Genre() {
 		
+	}
+
+	public Genre(Integer genreId, String genreName) {
+		this.genreId = genreId;
+		this.genreName = genreName;
 	}
 
 }

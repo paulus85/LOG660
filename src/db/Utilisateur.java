@@ -19,6 +19,18 @@ public class Utilisateur {
 		
 	}
 	
+	public Utilisateur(Integer userId, String lastName, String firstName, String email, String phoneNumber,
+			Date birthday, String password, Address adresse) {
+		this.userId = userId;
+		this.lastName = lastName;
+		this.firstName = firstName;
+		this.email = email;
+		this.phoneNumber = phoneNumber;
+		this.birthday = birthday;
+		this.password = password;
+		this.adresse = adresse;
+	}
+
 	public Integer getUserId() {
 		return userId;
 	}
@@ -47,10 +59,9 @@ public class Utilisateur {
 		return password;
 	}
 	
-	private void setUserId(Integer userId) {
+	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
-
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
