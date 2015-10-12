@@ -7,6 +7,9 @@ public class ClientUserInfo {
 	private Integer expirationMonth;
 	private Integer expirationYear;
 	private Integer cvv;
+	private Plan plan;
+	private DomaineCreditCardType creditCardType;
+
 
 	public ClientUserInfo() {
 		
@@ -59,6 +62,22 @@ public class ClientUserInfo {
 
 	public void setCvv(Integer cvv) {
 		this.cvv = cvv;
+	}
+	
+	public Plan getPlan() {
+		return plan;
+	}
+
+	public void setPlan(Plan plan) {
+		this.plan = plan;
+	}
+
+	public DomaineCreditCardType getCreditCardType() {
+		return creditCardType;
+	}
+
+	public void setCreditCardType(DomaineCreditCardType creditCardType) {
+		this.creditCardType = creditCardType;
 	}
 
 }

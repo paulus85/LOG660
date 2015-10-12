@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 11 oct. 2015 18:02:30 by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="db.Plan" table="PLAN">
+        <id name="planID" type="java.lang.Integer">
+            <column name="PLANID" />
+            <generator class="assigned" />
+        </id>
+        <property name="name" type="java.lang.String">
+            <column name="NAME" />
+        </property>
+        <property name="cost" type="java.lang.Integer">
+            <column name="COST" />
+        </property>
+        <property name="maxDuration" type="java.lang.Integer">
+            <column name="MAXDURATION" />
+        </property>
+        <property name="maxLocation" type="java.lang.Integer">
+            <column name="MAXLOCATION" />
+        </property>
+    </class>
+</hibernate-mapping>

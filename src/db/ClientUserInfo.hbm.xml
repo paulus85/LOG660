@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 11 oct. 2015 18:02:30 by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="db.ClientUserInfo" table="CLIENTUSERINFO">
+        <id name="userId" type="java.lang.Integer">
+            <column name="USERID" />
+            <generator class="native" />
+        </id>
+        <property name="numero" type="java.lang.Integer">
+            <column name="CARDNUMBER" />
+        </property>
+        <property name="expirationMonth" type="java.lang.Integer">
+            <column name="EXPIRATIONMONTH" />
+        </property>
+        <property name="expirationYear" type="java.lang.Integer">
+            <column name="EXPIRATIONYEAR" />
+        </property>
+        <property name="cvv" type="java.lang.Integer">
+            <column name="CVV" />
+        </property>
+        <many-to-one name="plan" class="db.Plan" fetch="join">
+            <column name="PLANID" />
+        </many-to-one>
+        <property name="creditCardType">
+            <column name="CREDITCARDTYPE" />
+            <type name="org.hibernate.type.EnumType">
+                <param name="type">12</param>
+                <param name="enumClass">db.DomaineCreditCardType</param>
+            </type>
+        </property>
+    </class>
+</hibernate-mapping>

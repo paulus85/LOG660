@@ -519,3 +519,20 @@ BEGIN
           RAISE_APPLICATION_ERROR(-20101, 'Carte de credit expiree');
     END IF;
 END;
+
+
+
+/* Ajouts de contraintes supplémentaires après coup (correction) */
+ALTER TABLE ClientUserInfo
+ADD CONSTRAINT fk_CUO_Delegation
+FOREIGN KEY (userId) REFERENCES Utilisateur(userId);
+
+ALTER TABLE EmployeeUserInfo
+ADD CONSTRAINT fk_EUO_Delegation
+FOREIGN KEY (userId) REFERENCES Utilisateur(userId);
+
+ALTER TABLE ClientUserInfo
+ADD CHECK CreditCardType IN ('Visa','MasterCard','Amex');
+
+
+
