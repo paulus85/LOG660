@@ -1,9 +1,13 @@
 package db;
 
+import javax.persistence.*;
+
 /**
  * @author paulriviere
  *
  */
+@Entity
+@Table(name="ADRESSE")
 public class Address {
 
 	private Integer addressId;
@@ -12,6 +16,10 @@ public class Address {
 	private String province;
 	private String codePostal;
 
+	@Id
+	@SequenceGenerator(name = "adresseSeq", sequenceName="ADDRESSSEQ", allocationSize=1)
+	@GeneratedValue(generator="adresseSeq", strategy=GenerationType.SEQUENCE)
+	@Column(name="ADRESSEID")
 	public Integer getAddressId() {
 		return addressId;
 	}
@@ -20,6 +28,7 @@ public class Address {
 		this.addressId = addressId;
 	}
 
+	@Column(name="RUE", length = 100)
 	public String getRue() {
 		return rue;
 	}
@@ -28,6 +37,7 @@ public class Address {
 		this.rue = rue;
 	}
 
+	@Column(name="VILLE", length = 100)
 	public String getVille() {
 		return ville;
 	}
@@ -36,6 +46,7 @@ public class Address {
 		this.ville = ville;
 	}
 
+	@Column(name="PROVINCE", length = 100)
 	public String getProvince() {
 		return province;
 	}
@@ -44,6 +55,7 @@ public class Address {
 		this.province = province;
 	}
 
+	@Column(name="CODEPOSTAL", length = 10)
 	public String getCodePostal() {
 		return codePostal;
 	}
@@ -56,8 +68,7 @@ public class Address {
 		
 	}
 
-	public Address(Integer addressId, String rue, String ville, String province, String codePostal) {
-		this.addressId = addressId;
+	public Address(String rue, String ville, String province, String codePostal) {
 		this.rue = rue;
 		this.ville = ville;
 		this.province = province;
