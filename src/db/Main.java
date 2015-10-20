@@ -20,9 +20,11 @@ public class Main {
 			//Integer artistId = (Integer) sessionHome.save(artist);
 			//Copy copy = new Copy(false, 36);
 			//Integer copyId = (Integer) sessionHome.save(copy);
-			Country country = new Country("FRANCE");
-			Integer countryId = (Integer) sessionHome.save(country);
-			System.out.println(countryId);
+			//Country country = new Country("FRANCE");
+			//Integer countryId = (Integer) sessionHome.save(country);
+			Genre genre = new Genre("Porno");
+			Integer genreId = (Integer) sessionHome.save(genre);
+			System.out.println(genreId);
 			transaction.commit();
 			
 			

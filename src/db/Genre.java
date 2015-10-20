@@ -1,8 +1,18 @@
 package db;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name="GENRE")
 public class Genre {
 	
+	@Id
+	@SequenceGenerator(name = "genreSeq", sequenceName="GENRESEQ", allocationSize=1)
+	@GeneratedValue(generator="genreSeq", strategy=GenerationType.SEQUENCE)
+	@Column(name="GENREID")
 	private Integer genreId;
+	
+	@Column(name="nom", length = 100)
 	private String genreName;
 
 	public Integer getGenreId() {
@@ -25,8 +35,7 @@ public class Genre {
 		
 	}
 
-	public Genre(Integer genreId, String genreName) {
-		this.genreId = genreId;
+	public Genre(String genreName) {
 		this.genreName = genreName;
 	}
 

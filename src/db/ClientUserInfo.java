@@ -1,6 +1,14 @@
 package db;
 
+import javax.persistence.*;
+
 public class ClientUserInfo {
+	
+	private enum DomaineCreditCardType {
+		Visa,
+		Mastercard,
+		Amex
+	}	
 	
 	private Integer userId;
 	private Integer numero;
@@ -8,6 +16,9 @@ public class ClientUserInfo {
 	private Integer expirationYear;
 	private Integer cvv;
 	private Plan plan;
+	
+	@Column(name="creditCardType") 
+	@Enumerated(EnumType.STRING) 
 	private DomaineCreditCardType creditCardType;
 
 
