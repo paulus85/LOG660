@@ -1,17 +1,29 @@
 package db;
 
+
+import javax.persistence.*;
+
+@Entity
+@Table(name="COPY")
 public class Copy {
 
+	@Id
+	@SequenceGenerator(name = "copySeq", sequenceName="COPYSEQ", allocationSize=1)
+	@GeneratedValue(generator="copySeq", strategy=GenerationType.SEQUENCE)
+	@Column(name="COPYID")
 	private Integer copyId;
+	
+	@Column(name = "RENTED")
 	private boolean rented;
+	
+	@Column(name = "FILMID")
 	private Integer filmId;
 	
 	public Copy() {
 		
 	}
 
-	public Copy(Integer copyId, boolean rented, Integer filmId) {
-		this.copyId = copyId;
+	public Copy(boolean rented, Integer filmId) {
 		this.rented = rented;
 		this.filmId = filmId;
 	}

@@ -14,6 +14,7 @@ private static final SessionFactory sessionFactory;
                     .configure()
                     .addAnnotatedClass(Address.class)
                     .addAnnotatedClass(Artist.class)
+                    .addAnnotatedClass(Copy.class)
                     .buildSessionFactory();
         } catch (Throwable ex) {
             // Log exception!
