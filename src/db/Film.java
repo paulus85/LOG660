@@ -3,8 +3,11 @@ package db;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.*;
+
 public class Film {
 
+	private Integer filmId;
 	private String title;
 	private Integer year;
 	private String language;
@@ -27,7 +30,20 @@ public class Film {
 		this.summary = summary;
 		Scenarists = scenarists;
 	}
+	
+	@Id
+	@SequenceGenerator(name = "adresseSeq", sequenceName="ADDRESSSEQ", allocationSize=1)
+	@GeneratedValue(generator="adresseSeq", strategy=GenerationType.SEQUENCE)
+	@Column(name="FILMID")
+	public Integer getFilmId() {
+		return this.filmId;
+	}
+	
+	public void setFilmId(Integer filmid) {
+		this.filmId = filmid;
+	}
 
+	@Column(name="TITLE", length=100)
 	public String getTitle() {
 		return title;
 	}
@@ -36,6 +52,7 @@ public class Film {
 		this.title = title;
 	}
 
+	@Column(name="YEAR")
 	public Integer getYear() {
 		return year;
 	}
@@ -44,6 +61,7 @@ public class Film {
 		this.year = year;
 	}
 
+	@Column(name="LANGUAGE", length=100)
 	public String getLanguage() {
 		return language;
 	}
@@ -52,6 +70,7 @@ public class Film {
 		this.language = language;
 	}
 
+	@Column(name="DURATION")
 	public Integer getDuration() {
 		return duration;
 	}
@@ -60,6 +79,7 @@ public class Film {
 		this.duration = duration;
 	}
 
+	@Column(name="ORIGINALCOPYNUMBER")
 	public Integer getOriginalCopyNumber() {
 		return originalCopyNumber;
 	}
@@ -68,6 +88,7 @@ public class Film {
 		this.originalCopyNumber = originalCopyNumber;
 	}
 
+	@Column(name="SUMMARY", length=4000)
 	public String getSummary() {
 		return summary;
 	}
@@ -76,6 +97,7 @@ public class Film {
 		this.summary = summary;
 	}
 
+	//TODO Many-to-many
 	public Set<Scenarist> getScenarists() {
 		return Scenarists;
 	}

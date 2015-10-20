@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 10 oct. 2015 16:27:34 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="generated.Adresse" table="ADRESSE" optimistic-lock="version">
+        <id name="adresseid" type="big_decimal">
+            <column name="ADRESSEID" precision="22" scale="0" />
+            <generator class="assigned" />
+        </id>
+        <property name="rue" type="string">
+            <column name="RUE" length="100" not-null="true" />
+        </property>
+        <property name="ville" type="string">
+            <column name="VILLE" length="100" not-null="true" />
+        </property>
+        <property name="province" type="string">
+            <column name="PROVINCE" length="100" not-null="true" />
+        </property>
+        <property name="codepostal" type="string">
+            <column name="CODEPOSTAL" length="10" />
+        </property>
+        <set name="utilisateurs" table="UTILISATEUR" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="ADRESSEID" precision="22" scale="0" not-null="true" />
+            </key>
+            <one-to-many class="generated.Utilisateur" />
+        </set>
+    </class>
+</hibernate-mapping>

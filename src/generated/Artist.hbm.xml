@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 10 oct. 2015 16:27:34 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="generated.Artist" table="ARTIST" optimistic-lock="version">
+        <id name="artistid" type="big_decimal">
+            <column name="ARTISTID" precision="22" scale="0" />
+            <generator class="assigned" />
+        </id>
+        <property name="nom" type="string">
+            <column name="NOM" length="100" not-null="true" />
+        </property>
+        <property name="birthday" type="date">
+            <column name="BIRTHDAY" length="7" />
+        </property>
+        <property name="birthplace" type="string">
+            <column name="BIRTHPLACE" length="100" />
+        </property>
+        <property name="biography" type="string">
+            <column name="BIOGRAPHY" length="4000" />
+        </property>
+        <set name="films" table="FILM" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="DIRECTORID" precision="22" scale="0" />
+            </key>
+            <one-to-many class="generated.Film" />
+        </set>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 10 oct. 2015 16:27:34 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="generated.Actorfilmrole" table="ACTORFILMROLE" optimistic-lock="version">
+        <composite-id name="id" class="generated.ActorfilmroleId">
+            <key-property name="artistid" type="big_decimal">
+                <column name="ARTISTID" precision="22" scale="0" />
+            </key-property>
+            <key-property name="filmid" type="big_decimal">
+                <column name="FILMID" precision="22" scale="0" />
+            </key-property>
+        </composite-id>
+        <property name="charactername" type="string">
+            <column name="CHARACTERNAME" length="100" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

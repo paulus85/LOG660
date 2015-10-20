@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 10 oct. 2015 16:27:34 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="generated.Filmscenarist" table="FILMSCENARIST" optimistic-lock="version">
+        <composite-id name="id" class="generated.FilmscenaristId">
+            <key-property name="scenaristid" type="big_decimal">
+                <column name="SCENARISTID" precision="22" scale="0" />
+            </key-property>
+            <key-property name="filmid" type="big_decimal">
+                <column name="FILMID" precision="22" scale="0" />
+            </key-property>
+        </composite-id>
+    </class>
+</hibernate-mapping>

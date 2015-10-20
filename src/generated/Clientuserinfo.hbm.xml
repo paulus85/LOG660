@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 10 oct. 2015 16:27:34 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="generated.Clientuserinfo" table="CLIENTUSERINFO" optimistic-lock="version">
+        <id name="userid" type="big_decimal">
+            <column name="USERID" precision="22" scale="0" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="plan" class="generated.Plan" fetch="select">
+            <column name="PLANID" precision="22" scale="0" not-null="true" />
+        </many-to-one>
+        <property name="cardnumber" type="string">
+            <column name="CARDNUMBER" length="20" not-null="true" />
+        </property>
+        <property name="expirationmonth" type="big_decimal">
+            <column name="EXPIRATIONMONTH" precision="22" scale="0" not-null="true" />
+        </property>
+        <property name="expirationyear" type="big_decimal">
+            <column name="EXPIRATIONYEAR" precision="22" scale="0" not-null="true" />
+        </property>
+        <property name="cvv" type="java.lang.Short">
+            <column name="CVV" precision="3" scale="0" />
+        </property>
+        <property name="creditcardtype" type="string">
+            <column name="CREDITCARDTYPE" length="100" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>
