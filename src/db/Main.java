@@ -18,9 +18,11 @@ public class Main {
 			//Integer addresId = (Integer) sessionHome.save(adresse);
 			//Artist artist = new Artist("Thomas", new Date(1994, 04, 07), "Grotte de lascau", "Cet artist hors du commun a débuté sa carriere en tant que figuratn pour des publicités...");
 			//Integer artistId = (Integer) sessionHome.save(artist);
-			Copy copy = new Copy(false, 36);
-			Integer copyId = (Integer) sessionHome.save(copy);
-			System.out.println(copyId);
+			//Copy copy = new Copy(false, 36);
+			//Integer copyId = (Integer) sessionHome.save(copy);
+			Country country = new Country("FRANCE");
+			Integer countryId = (Integer) sessionHome.save(country);
+			System.out.println(countryId);
 			transaction.commit();
 			
 			
