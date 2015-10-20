@@ -17,6 +17,8 @@ private static final SessionFactory sessionFactory;
                     .addAnnotatedClass(Copy.class)
                     .addAnnotatedClass(Country.class)
                     .addAnnotatedClass(Genre.class)
+                    .addAnnotatedClass(Plan.class)
+                    .addAnnotatedClass(Utilisateur.class)
                     .buildSessionFactory();
         } catch (Throwable ex) {
             // Log exception!

@@ -10,9 +10,9 @@ public class EmployeeUserInfo extends Utilisateur {
 		super();
 	}
 
-	public EmployeeUserInfo(Integer userId, String lastName, String firstName, String email, String phoneNumber,
+	public EmployeeUserInfo(String lastName, String firstName, String email, String phoneNumber,
 			Date birthday, String password, Address adresse, Integer matricule) {
-		super(userId,lastName,firstName,email,phoneNumber,birthday,password,adresse);
+		super(lastName,firstName,email,phoneNumber,birthday,password,adresse);
 		this.matricule = matricule;
 	}
 

@@ -1,5 +1,9 @@
 package db;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name="PLAN")
 public class Plan {
 	
 	private Integer planID;
@@ -12,14 +16,16 @@ public class Plan {
 		
 	}
 	
-	public Plan(Integer planID, String name, Integer cost, Integer maxDuration, Integer maxLocation) {
-		this.planID = planID;
+	public Plan(Integer planId, String name, Integer cost, Integer maxDuration, Integer maxLocation) {
+		this.planID = planId;
 		this.name = name;
 		this.cost = cost;
 		this.maxDuration = maxDuration;
 		this.maxLocation = maxLocation;
 	}
 	
+	@Id
+	@Column(name="PLANID")
 	public Integer getPlanID() {
 		return planID;
 	}
@@ -28,6 +34,7 @@ public class Plan {
 		this.planID = planID;
 	}
 	
+	@Column(name="NAME", length=100)
 	public String getName() {
 		return name;
 	}
@@ -36,6 +43,7 @@ public class Plan {
 		this.name = name;
 	}
 	
+	@Column(name="COST")
 	public Integer getCost() {
 		return cost;
 	}
@@ -44,6 +52,7 @@ public class Plan {
 		this.cost = cost;
 	}
 	
+	@Column(name="MAXDURATION")
 	public Integer getMaxDuration() {
 		return maxDuration;
 	}
@@ -52,6 +61,7 @@ public class Plan {
 		this.maxDuration = maxDuration;
 	}
 	
+	@Column(name="MAXLOCATION")
 	public Integer getMaxLocation() {
 		return maxLocation;
 	}
