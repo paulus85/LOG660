@@ -11,9 +11,9 @@ public class Main {
 		Transaction transaction = null;
 		try{
 			transaction = sessionHome.beginTransaction();
-			Address adresse = new Address("La Boulaie", "StPaul", "QC", "H2T 2V8");
-			Integer addresId = (Integer) sessionHome.save(adresse);
-			System.out.println(addresId);
+			Plan adresse = new Plan(4,"B", 45, 2,4);
+			sessionHome.save(adresse);
+			//System.out.println(addresId);
 			transaction.commit();
 			
 			
