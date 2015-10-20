@@ -19,7 +19,6 @@ public class Film {
 
 	public Film(String title, Integer year, String language, Integer duration, Integer originalCopyNumber,
 			String summary, Set<Scenarist> scenarists) {
-		super();
 		this.title = title;
 		this.year = year;
 		this.language = language;

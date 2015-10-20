@@ -13,6 +13,7 @@ private static final SessionFactory sessionFactory;
             sessionFactory = new Configuration()
                     .configure()
                     .addAnnotatedClass(Address.class)
+                    .addAnnotatedClass(Artist.class)
                     .buildSessionFactory();
         } catch (Throwable ex) {
             // Log exception!
