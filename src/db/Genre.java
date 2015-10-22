@@ -12,7 +12,7 @@ public class Genre {
 	@Column(name="GENREID")
 	private Integer genreId;
 	
-	@Column(name="nom", length = 100)
+	@Column(name="GENRENAME", length = 100)
 	private String genreName;
 
 	public Integer getGenreId() {
