@@ -9,6 +9,10 @@ public class Scenarist {
 	private Integer scenaristId;
 	private String name;
 	
+	public Scenarist(){
+		
+	}
+	
 	public Scenarist(String name) {
 		this.name = name;
 	}
