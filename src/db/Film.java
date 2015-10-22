@@ -5,6 +5,8 @@ import java.util.Set;
 
 import javax.persistence.*;
 
+@Entity
+@Table(name="FILM")
 public class Film {
 
 	private Integer filmId;
@@ -15,6 +17,7 @@ public class Film {
 	private Integer originalCopyNumber;
 	private String summary;
 	private Set<Scenarist> Scenarists = new HashSet<Scenarist>();
+	private Artist director;
 	
 	public Film() {
 		
@@ -96,14 +99,24 @@ public class Film {
 	public void setSummary(String summary) {
 		this.summary = summary;
 	}
-
-	//TODO Many-to-many
+	
+	@ManyToMany(cascade=CascadeType.ALL)
+	@JoinTable(name="FILMSCENARIST", joinColumns={@JoinColumn(name="FILMID")}, inverseJoinColumns={@JoinColumn(name="SCENARISTID")})
 	public Set<Scenarist> getScenarists() {
 		return Scenarists;
 	}
 
 	public void setScenarists(Set<Scenarist> scenarists) {
 		Scenarists = scenarists;
+	}
+
+	@ManyToOne(cascade=CascadeType.ALL)
+	public Artist getDirector() {
+		return director;
+	}
+
+	public void setDirector(Artist director) {
+		this.director = director;
 	}
 
 }

@@ -33,17 +33,15 @@ public class Film implements java.io.Serializable {
 	public Film() {
 	}
 
-	public Film(BigDecimal filmid, String title, BigDecimal year, BigDecimal duration, BigDecimal originalcopynumber) {
-		this.filmid = filmid;
+	public Film(String title, BigDecimal year, BigDecimal duration, BigDecimal originalcopynumber) {
 		this.title = title;
 		this.year = year;
 		this.duration = duration;
 		this.originalcopynumber = originalcopynumber;
 	}
 
-	public Film(BigDecimal filmid, Artist artist, String title, BigDecimal year, String language, BigDecimal duration,
+	public Film(Artist artist, String title, BigDecimal year, String language, BigDecimal duration,
 			BigDecimal originalcopynumber, String summary, Set copies) {
-		this.filmid = filmid;
 		this.artist = artist;
 		this.title = title;
 		this.year = year;
