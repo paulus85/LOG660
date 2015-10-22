@@ -1,6 +1,9 @@
 package db;
 
 import java.sql.Date;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -15,6 +18,7 @@ public class Main {
 		try{
 			transaction = sessionHome.beginTransaction();
 
+
 //			Set<Scenarist> scenaristes = new HashSet<Scenarist>();
 //			scenaristes.add(new Scenarist("NOM1"));
 //			scenaristes.add(new Scenarist("NOM2"));
@@ -24,6 +28,15 @@ public class Main {
 //			Integer genreId = (Integer) sessionHome.save(genre);
 //			System.out.println(genreId);
 //			Film f1 = new Film("TITLE1",2014,"Fr",66,3,"summary1",scenaristes);
+			Set<Scenarist> scenaristes = new HashSet<Scenarist>();
+			scenaristes.add(new Scenarist("NOM1"));
+			scenaristes.add(new Scenarist("NOM2"));
+			Artist a1 = new Artist("A1",Date.valueOf("2012-3-4"),"Lyon","blablabla");
+			Artist a2 = new Artist("Actor1",Date.valueOf("2012-3-4"),"Lyon","blablabla");
+			//sessionHome.save(a1);
+			Set<Artist> actors = new HashSet<>();
+			actors.add(a2);
+			//Film f1 = new Film("TITLE1",2014,"Fr",66,3,"summary1",scenaristes,a1,actors);
 //			Film f2 = new Film("TITLE2",2015,"Fr",63,2,"summary2",scenaristes);
 			Address adresse = new Address("RUE","VILLE","QC","H2T 2V8");
 			Plan plan = (Plan)sessionHome.get(Plan.class,1);

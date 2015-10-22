@@ -1,7 +1,21 @@
 package db;
 
 import java.util.Date;
-import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="ARTIST")
@@ -25,6 +39,9 @@ public class Artist {
 	
 	@Column(name="BIOGRAPHY", length = 4000)
 	private String biography;
+	
+	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="pk.artist")
+	private Set actorFilmRoles = new HashSet(0);
 
 	public Integer getArtistId() {
 		return artistId;
@@ -75,6 +92,14 @@ public class Artist {
 		this.birthday = birthday;
 		this.birthPlace = birthPlace;
 		this.biography = biography;
+	}
+
+	public Set getActorFilmRoles() {
+		return actorFilmRoles;
+	}
+
+	public void setActorFilmRoles(Set actorFilmRoles) {
+		this.actorFilmRoles = actorFilmRoles;
 	}
 
 }
