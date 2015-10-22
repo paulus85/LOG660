@@ -1,6 +1,10 @@
 package db;
 
 
+import java.sql.Date;
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.*;
 
 @Entity
@@ -13,14 +17,20 @@ public class Copy {
 	@Column(name="COPYID")
 	private Integer copyId;
 	
-	@Column(name = "RENTED")
-	private boolean rented;
-	
 	@Column(name = "FILMID")
 	private Integer filmId;
 	
+	@Column(name = "USERID")
+	private Integer userId = null;
+	
+	@Column(name = "RENTED")
+	private boolean rented;
+	
+	@Column(name = "DATELOC")
+	private Date dateLoc= null;
+	
+	
 	public Copy() {
-		
 	}
 
 	public Copy(boolean rented, Integer filmId) {

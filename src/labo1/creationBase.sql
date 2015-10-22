@@ -148,9 +148,12 @@ CREATE TABLE RentalCharacteristics (
 CREATE TABLE Copy (
     copyId          INTEGER         NOT NULL,
     filmId          INTEGER         NOT NULL,
+    userId          INTEGER         DEFAULT NULL,
     rented          NUMBER(1)       NOT NULL,
+    dateLoc         DATE          DEFAULT NULL,
     PRIMARY KEY (copyId),
     FOREIGN KEY (filmId) REFERENCES Film
+    FOREIGN KEY (userId) REFERENCES ClientUserInfo
 );
 
 

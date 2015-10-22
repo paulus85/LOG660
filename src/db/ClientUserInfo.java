@@ -1,11 +1,14 @@
 package db;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.*;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+
 
 @Entity
 @Table(name = "CLIENTUSERINFO")
@@ -33,9 +36,8 @@ public class ClientUserInfo extends Utilisateur {
 	private Plan plan;
 	private DomaineCreditCardType creditCardType;
 
-
+	
 	public ClientUserInfo() {
-		
 	}
 
 	public ClientUserInfo(String lastName, String firstName, String email, String phoneNumber,
