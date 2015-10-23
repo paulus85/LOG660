@@ -31,12 +31,9 @@ public class Main {
 //			Set<Scenarist> scenaristes = new HashSet<Scenarist>();
 //			scenaristes.add(new Scenarist("NOM1"));
 //			scenaristes.add(new Scenarist("NOM2"));
-//			Artist a1 = new Artist("A1",Date.valueOf("2012-3-4"),"Lyon","blablabla");
 //			Artist a2 = new Artist("Actor1",Date.valueOf("2012-3-4"),"Lyon","blablabla");
-//			sessionHome.save(a1);
 //			Set<Artist> actors = new HashSet<>();
 //			actors.add(a2);
-////			Film f1 = new Film("TITLE1",2014,"Fr",66,3,"summary1",scenaristes,a1,actors);
 //			Film f2 = new Film("TITLE2",2015,"Fr",63,2,"summary2",scenaristes);
 //			Address adresse = new Address("RUE","VILLE","QC","H2T 2V8");
 //			Plan plan = (Plan)sessionHome.get(Plan.class,1);
@@ -45,13 +42,29 @@ public class Main {
 //			System.out.println(clientId);
 			//ClientUserInfo client1 = (ClientUserInfo)sessionHome.get(ClientUserInfo.class, 21591);
 //			Film film = (Film)sessionHome.get(Film.class, 622);
-			Copy copy = new Copy(false, 622);
-			Integer copyid = (Integer)sessionHome.save(copy);
-			System.out.println(copyid);
+//			Copy copy = new Copy(false, 622);
+//			Integer copyid = (Integer)sessionHome.save(copy);
+//			System.out.println(copyid);
 //			Utilisateur u1 = new Utilisateur("ln","fn","mail@mail.ca","0000000000",Date.valueOf("2000-2-4"),"lol",adresse);
 //			Utilisateur u2 = new Utilisateur("ln2","fn2","mail@mail.ca2","0000000010",Date.valueOf("2000-2-4"),"lol1",adresse);
 			//sessionHome.save(f1);
-			//sessionHome.save(f2);
+			//sessionHome.save(f2);			
+			Artist a1 = new Artist("A1",Date.valueOf("2012-3-4"),"Lyon","blablabla");
+			Film f1 = new Film("abracadabra", 1994, "francais", 210, 0, "blablabla", a1);
+			Integer filmid = (Integer)sessionHome.save(f1);
+			System.out.println(filmid);
+			
+			ActorFilmRole role = new ActorFilmRole();
+			role.setArtist(a1);
+			role.setFilm(f1);
+			role.setCharacterName("Toto");
+			
+			a1.addActorFilmRole(role);
+			
+			Integer artistid = (Integer)sessionHome.save(a1);
+			System.out.println(artistid);
+
+			
 			transaction.commit();
 			
 			

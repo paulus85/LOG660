@@ -18,26 +18,24 @@ public class Film {
 	private String summary;
 	private Set<Scenarist> Scenarists = new HashSet<Scenarist>();
 	private Artist director;
-	private Set<ActorFilmRole> actors = new HashSet<ActorFilmRole>();
+	private Set<ActorFilmRole> actorFilmRoles = new HashSet<ActorFilmRole>();
 	
 	
 	public Film() {
-		
 	}
 
 	public Film(String title, Integer year, String language, Integer duration, Integer originalCopyNumber,
-			String summary, Set<Scenarist> scenarists, Artist director, Set<ActorFilmRole> actors) {
+			String summary, Artist director) {
 		this.title = title;
 		this.year = year;
 		this.language = language;
 		this.duration = duration;
 		this.originalCopyNumber = originalCopyNumber;
 		this.summary = summary;
-		Scenarists = scenarists;
 		this.director = director;
-		this.actors = actors;
 	}
 	
+	//GETTER ET SETTER
 	@Id
 	@SequenceGenerator(name = "adresseSeq", sequenceName="ADDRESSSEQ", allocationSize=1)
 	@GeneratedValue(generator="adresseSeq", strategy=GenerationType.SEQUENCE)
@@ -124,13 +122,18 @@ public class Film {
 		this.director = director;
 	}
 
-	@OneToMany(fetch=FetchType.LAZY, mappedBy="pk.film", cascade=CascadeType.ALL)
-	public Set<ActorFilmRole> getActors() {
-		return actors;
+	@OneToMany(mappedBy = "pk.film",
+			cascade = CascadeType.ALL)
+	public Set<ActorFilmRole> getActorFilmRoles() {
+		return actorFilmRoles;
 	}
 
-	public void setActors(Set<ActorFilmRole> actors) {
-		this.actors = actors;
+	public void setActorFilmRoles(Set<ActorFilmRole> roles) {
+		this.actorFilmRoles = roles;
+	}
+	
+	public void addActorFilmRole(ActorFilmRole roles){
+		this.actorFilmRoles.add(roles);
 	}
 
 }

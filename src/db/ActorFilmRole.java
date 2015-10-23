@@ -1,11 +1,6 @@
 package db;
 
-import javax.persistence.AssociationOverride;
-import javax.persistence.AssociationOverrides;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name="ACTORFILMROLE")
@@ -14,20 +9,43 @@ import javax.persistence.Table;
 	@AssociationOverride(name="pk.film", joinColumns=@JoinColumn(name="FILMID"))
 })
 public class ActorFilmRole {
-	
+	//Clé primaire composite
 	private ActorFilmRoleId pk = new ActorFilmRoleId();
+	//Champs additionnels
 	private String characterName;
 	
 	@EmbeddedId
 	public ActorFilmRoleId getPk() {
 		return pk;
 	}
-	public String getCharacterName() {
-		return characterName;
-	}
+	
 	public void setPk(ActorFilmRoleId pk) {
 		this.pk = pk;
 	}
+	
+	@Transient 
+	public Artist getArtist(){
+		return getPk().getArtist();
+	}
+	
+	public void setArtist(Artist artist){
+		getPk().setArtist(artist);
+	}
+	
+	@Transient 
+	public Film getFilm(){
+		return getPk().getFilm();
+	}
+	
+	public void setFilm(Film film){
+		getPk().setFilm(film);
+	}
+	
+	@Column (name="CHARACTERNAME", length = 100)
+	public String getCharacterName() {
+		return characterName;
+	}
+	
 	public void setCharacterName(String characterName) {
 		this.characterName = characterName;
 	}

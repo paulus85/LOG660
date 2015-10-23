@@ -4,23 +4,13 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 
 @Entity
 @Table(name="ARTIST")
 public class Artist {
 	
+	//ATTRIBUTS
 	@Id
 	@SequenceGenerator(name = "artistSeq", sequenceName="ARTISTSEQ", allocationSize=1)
 	@GeneratedValue(generator="artistSeq", strategy=GenerationType.SEQUENCE)
@@ -40,9 +30,11 @@ public class Artist {
 	@Column(name="BIOGRAPHY", length = 4000)
 	private String biography;
 	
-	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="pk.artist")
-	private Set actorFilmRoles = new HashSet(0);
+	@OneToMany(mappedBy = "pk.artist",
+			cascade = CascadeType.ALL)
+	private Set<ActorFilmRole> actorFilmRoles = new HashSet<ActorFilmRole>();
 
+	// GETTER et SETTER
 	public Integer getArtistId() {
 		return artistId;
 	}
@@ -82,9 +74,21 @@ public class Artist {
 	public void setBiography(String biography) {
 		this.biography = biography;
 	}
-
-	public Artist() {
 	
+
+	
+	public Set<ActorFilmRole> getActorFilmRoles() {
+		return actorFilmRoles;
+	}
+
+	public void setActorFilmRoles(Set<ActorFilmRole> roles) {
+		this.actorFilmRoles = roles;
+	}
+	
+	
+
+	//CONSTRUCTEURS
+	public Artist() {
 	}
 
 	public Artist(String name, Date birthday, String birthPlace, String biography) {
@@ -93,13 +97,10 @@ public class Artist {
 		this.birthPlace = birthPlace;
 		this.biography = biography;
 	}
-
-	public Set getActorFilmRoles() {
-		return actorFilmRoles;
+	
+	public void addActorFilmRole(ActorFilmRole roles){
+		this.actorFilmRoles.add(roles);
 	}
 
-	public void setActorFilmRoles(Set actorFilmRoles) {
-		this.actorFilmRoles = actorFilmRoles;
-	}
 
 }
