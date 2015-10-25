@@ -13,6 +13,17 @@ private static final SessionFactory sessionFactory;
             sessionFactory = new Configuration()
                     .configure()
                     .addAnnotatedClass(Address.class)
+                    .addAnnotatedClass(Copy.class)
+                    .addAnnotatedClass(Country.class)
+                    .addAnnotatedClass(Genre.class)
+                    .addAnnotatedClass(Plan.class)
+                    .addAnnotatedClass(Utilisateur.class)
+                    .addAnnotatedClass(Scenarist.class)
+                    .addAnnotatedClass(ClientUserInfo.class)
+                    .addAnnotatedClass(Artist.class)
+                    .addAnnotatedClass(Film.class)
+                    .addAnnotatedClass(ActorFilmRole.class)
+                    .addAnnotatedClass(ActorFilmRoleId.class)
                     .buildSessionFactory();
         } catch (Throwable ex) {
             // Log exception!

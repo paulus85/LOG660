@@ -1,8 +1,19 @@
 package db;
 
+
+import javax.persistence.*;
+
+@Entity
+@Table(name="COUNTRY")
 public class Country {
 	
+	@Id
+	@SequenceGenerator(name = "countrySeq", sequenceName="COUNTRYSEQ", allocationSize=1)
+	@GeneratedValue(generator="countrySeq", strategy=GenerationType.SEQUENCE)
+	@Column(name="COUNTRYID")
 	private Integer countryId;
+	
+	@Column(name="countryName", length = 100)
 	private String countryName;
 
 	public Integer getCountryId() {
@@ -25,8 +36,7 @@ public class Country {
 		
 	}
 
-	public Country(Integer countryId, String countryName) {
-		this.countryId = countryId;
+	public Country(String countryName) {
 		this.countryName = countryName;
 	}
 

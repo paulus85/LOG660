@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 10 oct. 2015 16:27:34 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="generated.Utilisateur" table="UTILISATEUR" optimistic-lock="version">
+        <id name="userid" type="big_decimal">
+            <column name="USERID" precision="22" scale="0" />
+            <generator class="native" />
+        </id>
+        <many-to-one name="adresse" class="generated.Adresse" fetch="select">
+            <column name="ADRESSEID" precision="22" scale="0" not-null="true" />
+        </many-to-one>
+        <property name="lastname" type="string">
+            <column name="LASTNAME" length="100" not-null="true" />
+        </property>
+        <property name="firstname" type="string">
+            <column name="FIRSTNAME" length="100" not-null="true" />
+        </property>
+        <property name="phonenumber" type="string">
+            <column name="PHONENUMBER" length="100" not-null="true" />
+        </property>
+        <property name="birthday" type="date">
+            <column name="BIRTHDAY" length="7" not-null="true" />
+        </property>
+        <property name="email" type="string">
+            <column name="EMAIL" length="100" not-null="true" unique="true" />
+        </property>
+        <property name="password" type="string">
+            <column name="PASSWORD" length="100" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 10 oct. 2015 16:27:34 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="generated.Country" table="COUNTRY" optimistic-lock="version">
+        <id name="countryid" type="big_decimal">
+            <column name="COUNTRYID" precision="22" scale="0" />
+            <generator class="assigned" />
+        </id>
+        <property name="countryname" type="string">
+            <column name="COUNTRYNAME" length="100" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

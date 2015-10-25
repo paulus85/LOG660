@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 10 oct. 2015 16:27:34 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="generated.Plan" table="PLAN" optimistic-lock="version">
+        <id name="planid" type="big_decimal">
+            <column name="PLANID" precision="22" scale="0" />
+            <generator class="assigned" />
+        </id>
+        <property name="name" type="string">
+            <column name="NAME" length="100" not-null="true" />
+        </property>
+        <property name="cost" type="big_decimal">
+            <column name="COST" precision="22" scale="0" not-null="true" />
+        </property>
+        <property name="maxduration" type="big_decimal">
+            <column name="MAXDURATION" precision="22" scale="0" not-null="true" />
+        </property>
+        <property name="maxlocation" type="big_decimal">
+            <column name="MAXLOCATION" precision="22" scale="0" not-null="true" />
+        </property>
+        <set name="clientuserinfos" table="CLIENTUSERINFO" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="PLANID" precision="22" scale="0" not-null="true" />
+            </key>
+            <one-to-many class="generated.Clientuserinfo" />
+        </set>
+    </class>
+</hibernate-mapping>

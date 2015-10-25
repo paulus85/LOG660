@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 10 oct. 2015 16:27:34 by Hibernate Tools 4.3.1.Final -->
+<hibernate-mapping>
+    <class name="generated.Copy" table="COPY" optimistic-lock="version">
+        <id name="copyid" type="big_decimal">
+            <column name="COPYID" precision="22" scale="0" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="film" class="generated.Film" fetch="select">
+            <column name="FILMID" precision="22" scale="0" not-null="true" />
+        </many-to-one>
+        <property name="rented" type="boolean">
+            <column name="RENTED" precision="1" scale="0" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

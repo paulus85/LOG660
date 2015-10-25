@@ -1,20 +1,45 @@
 package db;
 
-import java.sql.Date;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name="ARTIST")
 public class Artist {
 	
+	//ATTRIBUTS
+	@Id
+	@SequenceGenerator(name = "artistSeq", sequenceName="ARTISTSEQ", allocationSize=1)
+	@GeneratedValue(generator="artistSeq", strategy=GenerationType.SEQUENCE)
+	@Column(name="ARTISTID")
 	private Integer artistId;
+	
+	@Column(name="nom", length = 100)
 	private String name;
+	
+	@Column(name = "BIRTHDAY", columnDefinition="DATETIME")
+	@Temporal(TemporalType.DATE)
 	private Date birthday;
+	
+	@Column(name="BIRTHPLACE", length = 1000)
 	private String birthPlace;
+	
+	@Column(name="BIOGRAPHY", length = 4000)
 	private String biography;
+	
+	@OneToMany(mappedBy = "pk.artist",
+			cascade = CascadeType.ALL)
+	private Set<ActorFilmRole> actorFilmRoles = new HashSet<ActorFilmRole>();
 
+	// GETTER et SETTER
 	public Integer getArtistId() {
 		return artistId;
 	}
 
-	private void setArtistId(Integer artistId) {
+	public void setArtistId(Integer artistId) {
 		this.artistId = artistId;
 	}
 
@@ -49,17 +74,33 @@ public class Artist {
 	public void setBiography(String biography) {
 		this.biography = biography;
 	}
-
-	public Artist() {
 	
+
+	
+	public Set<ActorFilmRole> getActorFilmRoles() {
+		return actorFilmRoles;
 	}
 
-	public Artist(Integer artistId, String name, Date birthday, String birthPlace, String biography) {
-		this.artistId = artistId;
+	public void setActorFilmRoles(Set<ActorFilmRole> roles) {
+		this.actorFilmRoles = roles;
+	}
+	
+	
+
+	//CONSTRUCTEURS
+	public Artist() {
+	}
+
+	public Artist(String name, Date birthday, String birthPlace, String biography) {
 		this.name = name;
 		this.birthday = birthday;
 		this.birthPlace = birthPlace;
 		this.biography = biography;
 	}
+	
+	public void addActorFilmRole(ActorFilmRole roles){
+		this.actorFilmRoles.add(roles);
+	}
+
 
 }

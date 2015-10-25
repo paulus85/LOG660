@@ -1,7 +1,16 @@
 package db;
 
-import java.sql.Date;
+import java.util.Date;
 
+import javax.persistence.*;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+
+@Entity
+@Table(name = "UTILISATEUR", uniqueConstraints = @UniqueConstraint(columnNames = "EMAIL") )
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Utilisateur {
 	//Atributs de la classe
 	private Integer userId;
@@ -19,9 +28,8 @@ public class Utilisateur {
 		
 	}
 	
-	public Utilisateur(Integer userId, String lastName, String firstName, String email, String phoneNumber,
+	public Utilisateur(String lastName, String firstName, String email, String phoneNumber,
 			Date birthday, String password, Address adresse) {
-		this.userId = userId;
 		this.lastName = lastName;
 		this.firstName = firstName;
 		this.email = email;
@@ -30,31 +38,42 @@ public class Utilisateur {
 		this.password = password;
 		this.adresse = adresse;
 	}
-
+	
+	@Id
+	@SequenceGenerator(name = "utilisateurSeq", sequenceName="USERSEQ", allocationSize=1)
+	@GeneratedValue(generator="utilisateurSeq", strategy=GenerationType.SEQUENCE)
+	@Column(name="USERID")
 	public Integer getUserId() {
 		return userId;
 	}
 
+	@Column(name="LASTNAME")
 	public String getLastName() {
 		return lastName;
 	}
 
+	@Column(name="FIRSTNAME")
 	public String getFirstName() {
 		return firstName;
 	}
 
+	@Column(name="EMAIL")
 	public String getEmail() {
 		return email;
 	}
 
+	@Column(name="PHONENUMBER")
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
-
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name="BIRTHDAY")
 	public Date getBirthday() {
 		return birthday;
 	}
 
+	@Column(name="PASSWORD")
 	public String getPassword() {
 		return password;
 	}
@@ -85,6 +104,17 @@ public class Utilisateur {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	@ManyToOne(cascade = CascadeType.ALL)
+	@OnDelete(action=OnDeleteAction.NO_ACTION)
+	@JoinColumn(name="ADRESSEID")
+	public Address getAdresse() {
+		return adresse;
+	}
+
+	public void setAdresse(Address adresse) {
+		this.adresse = adresse;
 	}
 	
 	

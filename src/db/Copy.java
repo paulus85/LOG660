@@ -1,17 +1,39 @@
 package db;
 
+
+import java.sql.Date;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name="COPY")
 public class Copy {
 
+	@Id
+	@SequenceGenerator(name = "copySeq", sequenceName="COPYSEQ", allocationSize=1)
+	@GeneratedValue(generator="copySeq", strategy=GenerationType.SEQUENCE)
+	@Column(name="COPYID")
 	private Integer copyId;
-	private boolean rented;
+	
+	@Column(name = "FILMID")
 	private Integer filmId;
 	
+	@Column(name = "USERID")
+	private Integer userId = null;
+	
+	@Column(name = "RENTED")
+	private boolean rented;
+	
+	@Column(name = "DATELOC")
+	private Date dateLoc= null;
+	
+	
 	public Copy() {
-		
 	}
 
-	public Copy(Integer copyId, boolean rented, Integer filmId) {
-		this.copyId = copyId;
+	public Copy(boolean rented, Integer filmId) {
 		this.rented = rented;
 		this.filmId = filmId;
 	}
