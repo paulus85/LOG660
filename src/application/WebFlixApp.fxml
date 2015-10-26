@@ -154,7 +154,7 @@
                                           <Insets bottom="5.0" left="5.0" top="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <TextField fx:id="txt_Search_Realisateur" promptText="Nom et/ou prénom du réalisateur" HBox.hgrow="ALWAYS">
+                                    <TextField fx:id="txt_Search_Realisateur" promptText="PrénomRéal et/ou NomRéal" HBox.hgrow="ALWAYS">
                                        <HBox.margin>
                                           <Insets left="5.0" right="5.0" />
                                        </HBox.margin>
@@ -171,7 +171,7 @@
                                           <Insets bottom="5.0" left="5.0" top="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <TextField fx:id="txt_Search_Acteurs" promptText="Nom et/ou prénom d'un ou plusieurs acteurs" HBox.hgrow="ALWAYS">
+                                    <TextField fx:id="txt_Search_Acteurs" promptText="Prénom1 et/ou Nom1, Prénom2 et/ou Nom2, ect." HBox.hgrow="ALWAYS">
                                        <HBox.margin>
                                           <Insets left="5.0" right="5.0" />
                                        </HBox.margin>

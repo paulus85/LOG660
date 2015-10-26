@@ -125,7 +125,6 @@ public class AppController implements Initializable{
     		System.out.println("User and Password match");
     		
     		//On remplie les listes avec des informations initiales
-    		populateListFilms(fDataRequester.getFilmsBySearch());
     		populateListActeurs(aDataRequester.getActorsByFilm(""));
     		//updateRealisateurBtn(aDataRequester.getRealisateurByFilm(null));
     		//populateListScenariste(aDataRequester.getScenaristsByFilm(null));
@@ -134,6 +133,32 @@ public class AppController implements Initializable{
     @FXML
     public void clickBtnRechercher(ActionEvent e) {
     	System.out.println("clickBtnRechercher");
+
+    	int minYear = 0;
+    	int maxYear = 0;
+    	//On traite le cas ou les annees entrees ne seraient pas un nombre
+    	if(!(txt_Search_anMin.getText().isEmpty())){
+    		try{
+    			minYear = Integer.parseInt(txt_Search_anMin.getText());
+    		}catch(NumberFormatException e1){
+    			System.out.println("txt_Search_anMin is NAN");
+    		}
+    	}if(!(txt_Search_anMax.getText().isEmpty())){
+    		try{
+    			maxYear = Integer.parseInt(txt_Search_anMax.getText());
+    		}catch(NumberFormatException e1){
+    			System.out.println("txt_Search_anMax is NAN");
+    		}
+    	}
+    	//On execute la requete afin de remplir le tableau des films
+    	populateListFilms(fDataRequester.getFilmsBySearch(	txt_Search_Titre.getText(),
+															minYear,
+															maxYear,
+															txt_Search_Pays.getText(),
+															txt_Search_Langue.getText(),
+															txt_Search_Genres.getText(),
+															txt_Search_Realisateur.getText(),
+															txt_Search_Acteurs.getText()));
     }
     @FXML
     public void clickBtnRealisateur(ActionEvent e) {
