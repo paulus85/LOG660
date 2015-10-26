@@ -105,6 +105,8 @@ public class AppController implements Initializable{
     /* ----- METHODES d'initialisation ---- */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		
+		
 		sessionActive = false;
 		aDataRequester = new ArtistDataRequester();
 		fDataRequester = new FilmDataRequester();
@@ -116,13 +118,17 @@ public class AppController implements Initializable{
     @FXML
     public void clickBtnConnexion(ActionEvent e) {
     	System.out.println("clickBtnConnexion");
+    	System.out.println("usr_AdresseCourriel.getText() =" + usr_AdresseCourriel.getText());
+    	System.out.println("usr_MotDePasse.getText() =" + usr_MotDePasse.getText());
 
-    	if(usr_AdresseCourriel.getText() == "usr" && usr_MotDePasse.getText() == "password"){
+    	if(usr_AdresseCourriel.getText().equals("usr") && usr_MotDePasse.getText().equals("password")){
+    		System.out.println("User and Password match");
+    		
     		//On remplie les listes avec des informations initiales
     		populateListFilms(fDataRequester.getFilmsBySearch());
-    		populateListActeurs(aDataRequester.getActorsByFilm(null));
-    		updateRealisateurBtn(aDataRequester.getRealisateurByFilm(null));
-    		populateListScenariste(aDataRequester.getScenaristsByFilm(null));
+    		populateListActeurs(aDataRequester.getActorsByFilm(""));
+    		//updateRealisateurBtn(aDataRequester.getRealisateurByFilm(null));
+    		//populateListScenariste(aDataRequester.getScenaristsByFilm(null));
     	}
     }
     @FXML
@@ -172,7 +178,7 @@ public class AppController implements Initializable{
     private void populateListActeurs(ArrayList<String> arrayActeurs){
     	list_Acteurs.getItems().clear();    	
     	for(int i=0; i<arrayActeurs.size(); i++){
-    		list_Acteurs.getItems().get(i).toString();
+    		list_Acteurs.getItems().add(arrayActeurs.get(i).toString());
     	}
     }
     

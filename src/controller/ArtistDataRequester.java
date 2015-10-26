@@ -30,6 +30,7 @@ public class ArtistDataRequester {
 		actorsInFilm = new ArrayList<String>();
 		//TODO: On fait la requete a la base de donnee
 		
+		
 		//On ajoute tous les films resultants
 		actorsInFilm.add("Actor 1");
 		actorsInFilm.add("Actor 2");
