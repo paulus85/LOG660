@@ -1,21 +1,30 @@
 package db;
 
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name="COUNTRY")
 public class Country {
+	private Integer countryId;
+	private String countryName;
+	private Set<Film> films = new HashSet<Film>(0);
+
+	//CONSTRUCTEUR
+	public Country() {
+	}
+
+	public Country(String countryName) {
+		this.countryName = countryName;
+	}
 	
+	//GETTER ET SETTER
 	@Id
 	@SequenceGenerator(name = "countrySeq", sequenceName="COUNTRYSEQ", allocationSize=1)
 	@GeneratedValue(generator="countrySeq", strategy=GenerationType.SEQUENCE)
 	@Column(name="COUNTRYID")
-	private Integer countryId;
-	
-	@Column(name="countryName", length = 100)
-	private String countryName;
-
 	public Integer getCountryId() {
 		return countryId;
 	}
@@ -24,6 +33,7 @@ public class Country {
 		this.countryId = countryId;
 	}
 
+	@Column(name="COUNTRYNAME", length = 100)
 	public String getCountryName() {
 		return countryName;
 	}
@@ -31,13 +41,15 @@ public class Country {
 	public void setCountryName(String countryName) {
 		this.countryName = countryName;
 	}
-
-	public Country() {
-		
+	
+	//Mapping Film
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "countries")
+	public Set<Film> getFilms() {
+		return this.films;
 	}
 
-	public Country(String countryName) {
-		this.countryName = countryName;
+	public void setFilms(Set<Film> films) {
+		this.films = films;
 	}
 
 }

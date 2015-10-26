@@ -30,6 +30,4 @@ public class ActorFilmRoleId implements Serializable{
 		this.film = film;
 	}
 	
-	
-
 }

@@ -47,22 +47,38 @@ public class Main {
 //			System.out.println(copyid);
 //			Utilisateur u1 = new Utilisateur("ln","fn","mail@mail.ca","0000000000",Date.valueOf("2000-2-4"),"lol",adresse);
 //			Utilisateur u2 = new Utilisateur("ln2","fn2","mail@mail.ca2","0000000010",Date.valueOf("2000-2-4"),"lol1",adresse);
-			//sessionHome.save(f1);
-			//sessionHome.save(f2);			
-			Artist a1 = new Artist("A1",Date.valueOf("2012-3-4"),"Lyon","blablabla");
-			Film f1 = new Film("abracadabra", 1994, "francais", 210, 0, "blablabla", a1);
-			Integer filmid = (Integer)sessionHome.save(f1);
-			System.out.println(filmid);
+//			sessionHome.save(f1);
+//			sessionHome.save(f2);		
 			
-			ActorFilmRole role = new ActorFilmRole();
-			role.setArtist(a1);
-			role.setFilm(f1);
-			role.setCharacterName("Toto");
+			/* TEST ACTORFILMROLE */
+//			Artist a1 = new Artist("A1",Date.valueOf("2012-3-4"),"Lyon","blablabla");
+//			Film f1 = new Film("abracadabra", 1994, "francais", 210, 0, "blablabla", a1);
+//			Integer filmid = (Integer)sessionHome.save(f1);
+//			System.out.println(filmid);
+//			
+//			ActorFilmRole role = new ActorFilmRole();
+//			role.setArtist(a1);
+//			role.setFilm(f1);
+//			role.setCharacterName("Toto");
+//			
+//			a1.addActorFilmRole(role);
+//			
+//			Integer artistid = (Integer)sessionHome.save(a1);
+//			System.out.println(artistid);
 			
-			a1.addActorFilmRole(role);
+			Film film = (Film)sessionHome.get(Film.class,21597);
 			
-			Integer artistid = (Integer)sessionHome.save(a1);
-			System.out.println(artistid);
+			Scenarist c1 = new Scenarist("france");
+			Scenarist c2 = new Scenarist("gabon");
+			Scenarist c3 = new Scenarist("canada");
+
+			Set<Scenarist> countries = new HashSet<Scenarist>();
+			countries.add(c3);
+			countries.add(c1);
+			countries.add(c2);
+			
+			film.setScenarists(countries);
+			sessionHome.save(film);
 
 			
 			transaction.commit();

@@ -16,11 +16,14 @@ public class Film {
 	private Integer duration;
 	private Integer originalCopyNumber;
 	private String summary;
-	private Set<Scenarist> Scenarists = new HashSet<Scenarist>();
 	private Artist director;
+	private Set<Scenarist> scenarists = new HashSet<Scenarist>();
+	private Set<Genre> genres = new HashSet<Genre>();
+	private Set<Country> countries = new HashSet<Country>();
 	private Set<ActorFilmRole> actorFilmRoles = new HashSet<ActorFilmRole>();
 	
 	
+	//CONSTRUCTEURS
 	public Film() {
 	}
 
@@ -102,16 +105,20 @@ public class Film {
 		this.summary = summary;
 	}
 	
-	@ManyToMany(cascade=CascadeType.ALL)
-	@JoinTable(name="FILMSCENARIST", joinColumns={@JoinColumn(name="FILMID")}, inverseJoinColumns={@JoinColumn(name="SCENARISTID")})
+	//Mapping Scenarists
+	@ManyToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+	@JoinTable(name="FILMSCENARIST",
+				joinColumns={@JoinColumn(name="FILMID")},
+				inverseJoinColumns={@JoinColumn(name="SCENARISTID")})
 	public Set<Scenarist> getScenarists() {
-		return Scenarists;
+		return scenarists;
 	}
 
 	public void setScenarists(Set<Scenarist> scenarists) {
-		Scenarists = scenarists;
+		this.scenarists = scenarists;
 	}
 
+	//Mapping Director
 	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="DIRECTORID")
 	public Artist getDirector() {
@@ -122,6 +129,7 @@ public class Film {
 		this.director = director;
 	}
 
+	//Mapping ActorFilmRole
 	@OneToMany(mappedBy = "pk.film",
 			cascade = CascadeType.ALL)
 	public Set<ActorFilmRole> getActorFilmRoles() {
@@ -136,4 +144,30 @@ public class Film {
 		this.actorFilmRoles.add(roles);
 	}
 
+	//Mapping Countries
+	@ManyToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+	@JoinTable(name="FILMCOUNTRY",
+				joinColumns={@JoinColumn(name="FILMID")},
+				inverseJoinColumns={@JoinColumn(name="COUNTRYID")})
+	public Set<Country> getCountries() {
+		return countries;
+	}
+
+	public void setCountries(Set<Country> countries) {
+		this.countries = countries;
+	}
+
+	//Mapping Genres
+	@ManyToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+	@JoinTable(name="FILMGENRE",
+				joinColumns={@JoinColumn(name="FILMID")},
+				inverseJoinColumns={@JoinColumn(name="GENREID")})
+	public Set<Genre> getGenres() {
+		return genres;
+	}
+
+	public void setGenres(Set<Genre> genres) {
+		this.genres = genres;
+	}
+	
 }
