@@ -9,10 +9,9 @@ public class ArtistDataRequester {
     /* ---------------------
      *  Attributs de calcul
      * --------------------- */
-	ArrayList<String> actorsInFilm;
-	String realisateurOfFilm;
-	ArrayList<String> scenaristsOfFilm;
-	Artist targetArtist;
+	public ArrayList<String> actorsInFilm;
+	public Artist realisateurOfFilm;
+	public ArrayList<String> scenaristsOfFilm;
 	
 	/*
 	 * Constructeur par defaut
@@ -26,7 +25,7 @@ public class ArtistDataRequester {
 	 * @param filmTitle Nom du film selectionne
 	 * @return Le nom des acteurs qui ont joue dans le film
 	 */
-	public ArrayList<String> getActorsByFilm(String filmTitle){
+	public ArrayList<String> getActorsByFilm(int pSelectedFilmId){
 		actorsInFilm = new ArrayList<String>();
 		//TODO: On fait la requete a la base de donnee
 		
@@ -43,9 +42,9 @@ public class ArtistDataRequester {
 	 * @param filmTitle Nom du film selectionne
 	 * @return Le nom du realisateur qui a realise le film
 	 */
-	public String getRealisateurByFilm(String filmTitle){
+	public Artist getRealisateurByFilm(int pSelectedFilmId){
 		//TODO: On fait la requete a la base de donnee
-		realisateurOfFilm = "Qui est le realisateur";
+		//realisateurOfFilm = ;
 		
 		//On retourne le nom du realisateur
 		return realisateurOfFilm;
@@ -55,7 +54,7 @@ public class ArtistDataRequester {
 	 * @param filmTitle Nom du film selectionne
 	 * @return Le nom des scenaristes qui ont ecrit le film
 	 */
-	public ArrayList<String> getScenaristsByFilm(String filmTitle){
+	public ArrayList<String> getScenaristsByFilm(int pSelectedFilmId){
 		scenaristsOfFilm = new ArrayList<String>();
 		//TODO: On fait la requete a la base de donnee
 		

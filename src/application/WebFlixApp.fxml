@@ -186,7 +186,7 @@
                         <Button fx:id="btn_Rechercher" mnemonicParsing="false" onAction="#clickBtnRechercher" text="Rechercher" />
                      </items>
                   </SplitPane>
-                  <SplitPane dividerPositions="0.5852842809364549" orientation="VERTICAL" prefHeight="200.0" prefWidth="200.0">
+                  <SplitPane dividerPositions="0.5367892976588629" orientation="VERTICAL" prefHeight="200.0" prefWidth="200.0">
                      <items>
                         <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
                           <tabs>
@@ -233,7 +233,7 @@
                                                             <Insets bottom="5.0" left="5.0" top="5.0" />
                                                          </HBox.margin>
                                                       </Label>
-                                                      <TextField fx:id="txt_InfoFilm_Annee" editable="false" maxWidth="-Infinity" prefWidth="150.0" HBox.hgrow="ALWAYS">
+                                                      <TextField fx:id="txt_InfoFilm_Annee" editable="false" maxWidth="-Infinity" prefWidth="100.0" HBox.hgrow="ALWAYS">
                                                          <HBox.margin>
                                                             <Insets left="5.0" right="5.0" />
                                                          </HBox.margin>
@@ -309,6 +309,25 @@
                                                    </children>
                                                    <VBox.margin>
                                                       <Insets top="5.0" />
+                                                   </VBox.margin>
+                                                </HBox>
+                                                <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+                                                <HBox>
+                                                   <children>
+                                                      <Label text="Nombre de copies disponibles:">
+                                                         <HBox.margin>
+                                                            <Insets bottom="5.0" left="5.0" top="5.0" />
+                                                         </HBox.margin>
+                                                      </Label>
+                                                      <TextField fx:id="txt_InfoFilm_nbCopies" editable="false" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="50.0" HBox.hgrow="ALWAYS">
+                                                         <HBox.margin>
+                                                            <Insets left="5.0" right="5.0" />
+                                                         </HBox.margin>
+                                                      </TextField>
+                                                      <Button fx:id="btn_Location" mnemonicParsing="false" onAction="#clickBtnLocation" text="Louer une copie" />
+                                                   </children>
+                                                   <VBox.margin>
+                                                      <Insets bottom="5.0" top="5.0" />
                                                    </VBox.margin>
                                                 </HBox>
                                              </children>

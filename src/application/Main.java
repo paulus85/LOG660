@@ -15,8 +15,6 @@ public class Main extends Application{
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		
-		
 		try {
 			Parent root = FXMLLoader.load(getClass().getResource("/application/WebFlixApp.fxml"));
 			Scene scene = new Scene(root);
@@ -33,5 +31,13 @@ public class Main extends Application{
 		launch(args);
 		
 		sessionHome.close();
+	}
+
+	public static Session getSessionHome() {
+		return sessionHome;
+	}
+
+	public static void setSessionHome(Session sessionHome) {
+		Main.sessionHome = sessionHome;
 	}
 }

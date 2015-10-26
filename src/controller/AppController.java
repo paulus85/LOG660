@@ -1,12 +1,26 @@
 package controller;
 
+import java.lang.reflect.InvocationTargetException;
 /**
  * Sample Skeleton for 'WebFlixApp.fxml' Controller Class
  */
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
 
+import org.hibernate.Query;
+
+import application.Main;
+import db.ActorFilmRole;
+import db.ClientUserInfo;
+import db.Country;
+import db.Film;
+import db.Genre;
+import db.Plan;
+import db.Utilisateur;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -49,6 +63,10 @@ public class AppController implements Initializable{
     private TextField txt_InfoFilm_Duree; // Value injected by FXMLLoader
     @FXML // fx:id="txt_InfoFilm_Langue"
     private TextField txt_InfoFilm_Langue; // Value injected by FXMLLoader
+    @FXML // fx:id="txt_InfoFilm_nbCopies"
+    private TextField txt_InfoFilm_nbCopies; // Value injected by FXMLLoader
+    @FXML // fx:id="txt_InfoFilm_nbCopies"
+    private Button btn_Location; // Value injected by FXMLLoader
     /* ----------------------------------------------------------------- */
 
     /* ----- TextFields d'information sur l'Artiste ----- */
@@ -96,6 +114,9 @@ public class AppController implements Initializable{
      * --------------------- */
 	//Determine si un utilisateur est connecte
 	private boolean sessionActive;
+	//Les informations de l'utilisateur
+	private ClientUserInfo currentUserInfo;
+	
 	private ArtistDataRequester aDataRequester;
 	private FilmDataRequester fDataRequester;
 	
@@ -105,11 +126,23 @@ public class AppController implements Initializable{
     /* ----- METHODES d'initialisation ---- */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
-		
+		//TODO: Mettre a false pour demander une connexion
 		sessionActive = false;
+		currentUserInfo = null;
+
 		aDataRequester = new ArtistDataRequester();
 		fDataRequester = new FilmDataRequester();
+		
+		//On initialise la liste de film pour pouvoir être interagit
+		list_Films.getItems().clear();
+		list_Films.getItems().add("");
+		list_Films.getItems().add("");
+		list_Films.getItems().add("");
+		list_Films.getItems().add("");
+		list_Films.getItems().add("");
+		list_Films.getItems().add("");
+		list_Films.getItems().add("");
+		list_Films.getItems().add("");
 	}
 	/* ----------------------------------------------------------------- */
 	
@@ -120,58 +153,112 @@ public class AppController implements Initializable{
     	System.out.println("clickBtnConnexion");
     	System.out.println("usr_AdresseCourriel.getText() =" + usr_AdresseCourriel.getText());
     	System.out.println("usr_MotDePasse.getText() =" + usr_MotDePasse.getText());
-
-    	if(usr_AdresseCourriel.getText().equals("usr") && usr_MotDePasse.getText().equals("password")){
-    		System.out.println("User and Password match");
+    	
+    	if(!sessionActive){
+    		//On cree une requete pour verifie si l'authentification est valide
+    		String q = ("FROM Utilisateur U WHERE U.email = :mail AND U.password = :password");
+    		Query query = Main.getSessionHome().createQuery(q);
+    		query.setParameter("mail",usr_AdresseCourriel.getText());
+    		query.setParameter("password",usr_MotDePasse.getText());
+    		List authUser = query.list(); 
     		
-    		//On remplie les listes avec des informations initiales
-    		populateListActeurs(aDataRequester.getActorsByFilm(""));
-    		//updateRealisateurBtn(aDataRequester.getRealisateurByFilm(null));
-    		//populateListScenariste(aDataRequester.getScenaristsByFilm(null));
+    		if(authUser.size() != 0){
+        		System.out.println("User and Password match");
+        		btn_Connexion.setText("Déconnexion");
+        		sessionActive = true;
+        		
+        		currentUserInfo = (ClientUserInfo)authUser.get(0);
+
+        		list_Films.getItems().clear();
+        		list_Films.getItems().add("Bienvenu " + currentUserInfo.getFirstName());
+        	}else{
+        		list_Films.getItems().clear();
+        		list_Films.getItems().add("La combinaison d'adresse courriel et mot de passe de passe ");
+            	list_Films.getItems().add("utilisateur n'est pas valide.");
+            	list_Films.getItems().add("Veuillez vérifier la saisie effectuée dans chacun des champs");
+            	list_Films.getItems().add("sujets et réessayer. Merci de votre coopération.");
+        	}
+    	}else{
+    		sessionActive = false;
+    		currentUserInfo = null;
+    		usr_AdresseCourriel.setText("");
+    		usr_MotDePasse.setText("");
+    		list_Films.getItems().clear();
+    		btn_Connexion.setText("Connexion");
     	}
     }
     @FXML
     public void clickBtnRechercher(ActionEvent e) {
     	System.out.println("clickBtnRechercher");
-
-    	int minYear = 0;
-    	int maxYear = 0;
-    	//On traite le cas ou les annees entrees ne seraient pas un nombre
-    	if(!(txt_Search_anMin.getText().isEmpty())){
-    		try{
-    			minYear = Integer.parseInt(txt_Search_anMin.getText());
-    		}catch(NumberFormatException e1){
-    			System.out.println("txt_Search_anMin is NAN");
-    		}
-    	}if(!(txt_Search_anMax.getText().isEmpty())){
-    		try{
-    			maxYear = Integer.parseInt(txt_Search_anMax.getText());
-    		}catch(NumberFormatException e1){
-    			System.out.println("txt_Search_anMax is NAN");
-    		}
+    	
+    	if(!sessionActive){
+        	list_Films.getItems().clear();
+    		list_Films.getItems().add("Veuiller vous connecter au système en vous authentifiant");
+    		list_Films.getItems().add("grâce à une combinaison d'un courriel et d'un mot de passe");
+    		list_Films.getItems().add("enregistrée à un forfait offert par les services WebFlix");
+    		list_Films.getItems().add("afin de pouvoir consulter notre catalogue de film.");
+    	}else{
+	    	int minYear = 0;
+	    	int maxYear = 0;
+	    	//On traite le cas ou les annees entrees ne seraient pas un nombre
+	    	if(!(txt_Search_anMin.getText().isEmpty())){
+	    		try{
+	    			minYear = Integer.parseInt(txt_Search_anMin.getText());
+	    		}catch(NumberFormatException e1){
+	    			System.out.println("txt_Search_anMin is NAN");
+	    		}
+	    	}if(!(txt_Search_anMax.getText().isEmpty())){
+	    		try{
+	    			maxYear = Integer.parseInt(txt_Search_anMax.getText());
+	    		}catch(NumberFormatException e1){
+	    			System.out.println("txt_Search_anMax is NAN");
+	    		}
+	    	}
+	    	
+	    	//On execute la requete afin de remplir le tableau des films
+	    	populateListFilms(fDataRequester.getFilmsBySearch(	txt_Search_Titre.getText(),
+																minYear,
+																maxYear,
+																txt_Search_Pays.getText(),
+																txt_Search_Langue.getText(),
+																txt_Search_Genres.getText(),
+																txt_Search_Realisateur.getText(),
+																txt_Search_Acteurs.getText()));
     	}
-    	//On execute la requete afin de remplir le tableau des films
-    	populateListFilms(fDataRequester.getFilmsBySearch(	txt_Search_Titre.getText(),
-															minYear,
-															maxYear,
-															txt_Search_Pays.getText(),
-															txt_Search_Langue.getText(),
-															txt_Search_Genres.getText(),
-															txt_Search_Realisateur.getText(),
-															txt_Search_Acteurs.getText()));
     }
     @FXML
     public void clickBtnRealisateur(ActionEvent e) {
     	System.out.println("clickBtnRealisateur");
     }
+    
+    @FXML
+    public void clickBtnLocation(ActionEvent e) {
+    	System.out.println("clickBtnLocation");
+    }
+    
 
     /* ----- Méthodes des listes ---- */
     @FXML
     public void clickListFilms(MouseEvent e){
     	System.out.println("clickListFilm");
-    	
-    	String selectedFilm = list_Films.getSelectionModel().getSelectedItem();
-    	System.out.println(selectedFilm);
+		//Obtention de l'objet Film
+		int selectedFilmIndex = list_Films.getSelectionModel().getSelectedIndex();
+		if(fDataRequester.getFilmsBySearch() == null && sessionActive){
+        	list_Films.getItems().clear();
+    		list_Films.getItems().add("Veuiller effectuer une recherche afin d'avoir un");
+    		list_Films.getItems().add("éventail de sélection de film à consulter.");
+		}else{
+			Film selectedFilm = fDataRequester.getSelectedFilmInfo(selectedFilmIndex);
+			
+			//Assignation des informations du film aux champs
+			populateFilmInformations(selectedFilm);
+			
+			//populateListActeurs(aDataRequester.getActorsByFilm(selectedFilmIndex));
+			//updateRealisateurBtn(aDataRequester.getRealisateurByFilm(selectedFilmIndex));
+			//populateListScenariste(aDataRequester.getScenaristsByFilm(selectedFilmIndex));
+			
+			System.out.println(selectedFilmIndex);
+		}
     }
     @FXML
     public void clickListActeurs(MouseEvent e){
@@ -196,14 +283,63 @@ public class AppController implements Initializable{
     		list_Films.getItems().add(arrayFilm.get(i).toString());
     	}
     }
+    /*
+     * On popule les champs texte de la fiche d'information du Film selectionne
+     * @param pSelectedFilm Film dont les informations sont demandees
+     */
+    private void populateFilmInformations(Film pSelectedFilm){
+        txt_SynopsisFilm.setText(pSelectedFilm.getSummary());
+        txt_InfoFilm_Titre.setText(pSelectedFilm.getTitle());
+        txt_InfoFilm_Annee.setText(pSelectedFilm.getYear().toString());
+        txt_InfoFilm_Duree.setText(pSelectedFilm.getDuration().toString());
+        txt_InfoFilm_Langue.setText(pSelectedFilm.getLanguage());
+        //Iteration des genres
+        String genres = "";
+        Iterator<Genre> genreIt = pSelectedFilm.getGenres().iterator();
+        while(genreIt.hasNext()){
+        	genres += genreIt.next().getGenreName();
+        	genreIt.remove();
+            if(genreIt.hasNext()){
+                genres += ", ";
+            }
+        }
+        txt_InfoFilm_Genres.setText(genres);
+        //Iteration des pays
+        String countries = "";
+        Iterator<Country> countryIt = pSelectedFilm.getCountries().iterator();
+        while(countryIt.hasNext()){
+        	countries += countryIt.next().getCountryName();
+        	countryIt.remove();
+            if(countryIt.hasNext()){
+                countries += ", ";
+            }
+        }
+        txt_InfoFilm_Pays.setText(countries);
+        
+        
+        //TODO: populateListActeurs
+        populateListActeurs(pSelectedFilm.getActorFilmRoles());
+        updateRealisateurBtn(pSelectedFilm.getDirector().getName());
+        //aDataRequester.getActorsByFilm(pSelectedFilm.getFilmId());
+    }
 
     /*
      * @param arrayActeurs Table des acteurs d'un film
      */
-    private void populateListActeurs(ArrayList<String> arrayActeurs){
-    	list_Acteurs.getItems().clear();    	
-    	for(int i=0; i<arrayActeurs.size(); i++){
-    		list_Acteurs.getItems().add(arrayActeurs.get(i).toString());
+    private void populateListActeurs(Set<ActorFilmRole> pSetActorFilmRole){
+    	//On vide les entrees de la liste
+    	list_Acteurs.getItems().clear();
+    	//On va chercher tous les acteurs ainsi que leur role
+    	String currentActorRoleString = "";
+    	Iterator<ActorFilmRole> actorsRoleIt = pSetActorFilmRole.iterator();
+    	//On parcours 
+    	while(actorsRoleIt.hasNext()){
+    		currentActorRoleString +=  actorsRoleIt.next().getArtist().getName().toString();
+    		currentActorRoleString +=  " (";
+    		currentActorRoleString +=  actorsRoleIt.next().getCharacterName().toString();
+    		currentActorRoleString +=  ")";
+    		actorsRoleIt.remove();
+    		list_Acteurs.getItems().add(currentActorRoleString);
     	}
     }
     
