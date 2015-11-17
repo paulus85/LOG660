@@ -3,11 +3,15 @@ package controller;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 
 import application.Main;
+import db.ActorFilmRole;
 import db.Artist;
 import db.Country;
 import db.Film;
@@ -20,7 +24,10 @@ public class FilmDataRequester {
 	//La liste d'objet Film resultant de la requete
 	public ArrayList<Film> filmsBySearch;
 	//La liste de String affichee dans listFilm soit: titre du film (annee)
-	public ArrayList<String> filmSearchResults;
+	public List<Film> filmSearchResults;
+	
+	//Liste de film de la base de donnée
+	public List<Film> films;
 	 
 	//Les attributs de suivi des valeurs de recherche
 	private String requestTitleParameter = null;
@@ -33,8 +40,11 @@ public class FilmDataRequester {
 	private boolean requestRealisateur = false;
 	private String requestActorsParameter = null;
 	private boolean requestActors = false;
-	private String requestYearParameter = null;
-	private boolean requestYear = false;
+	private Integer requestMinYearParameter = null;
+	private boolean requestMinYear = false;
+	private Integer requestMaxYearParameter = null;
+	private boolean requestMaxYear = false;
+	private boolean requestMinMaxYear = false;
 	
 	/*
 	 * Constructeur par defaut
@@ -47,20 +57,29 @@ public class FilmDataRequester {
     /* ----------------------------------------------
      *  METHODES de requetes pour populer les listes
      * ---------------------------------------------- */
+	//Chargement des films de la base de donnée
+	public void loadFilms (){
+		String request = "FROM Film";
+		Query query = Main.getSessionHome().createQuery(request);
+		films = query.list();
+	}
+	
 	/*
 	 * @param filmTitle Nom du film selectionne
 	 * @return Le nom des acteurs qui ont joue dans le film
 	 */
-	public ArrayList<String> getFilmsBySearch(String pTitle,
-												int pMinYear,
-												int pMaxYear,
-												String pCountries,
+	
+	public List<Film> getFilmsBySearch(String pTitle,
+												Integer pMinYear,
+												Integer pMaxYear,
+												String pCountry,
 												String pLanguage,
-												String pGenres,
+												String pGenre,
 												String pRealisateur,
-												String pActors){
+												String pActor){
 
 		//Reinitilisation des attributs de suivi de detail
+		boolean isFirstArg = true;
 		requestTitleParameter = null;
 		requestTitle = false;
 		requestCountriesParameter = null;
@@ -71,90 +90,117 @@ public class FilmDataRequester {
 		requestRealisateur = false;
 		requestActorsParameter = null;
 		requestActors = false;
-		requestYearParameter = null;
-		requestYear = false;
+		requestMinYearParameter = null;
+		requestMinYear = false;
+		requestMaxYear = false;
+		requestMaxYearParameter = null;
+		requestMinMaxYear = false;
 		
 		//On reinitialise la liste des resultats de Films 
 		filmsBySearch = new ArrayList<Film>();
-		//On cree une chaine de requete pour aller chercher les films correspondants
-		String request = "FROM Film WHERE";
 		
+		List<Film> resultfilms = new ArrayList<Film>(films);
 		//------------------------------------------------
 		//-------------FORMATION DE REQUETE --------------
 		if(!(pTitle.isEmpty())){
-			System.out.println("Titre =" + pTitle);
-			requestTitleParameter = pTitle;
-			requestTitle = true;
-		}
-		if(!(pCountries.isEmpty())){
-			//On separe les elements de l'enumeration de COUNTRY
-			String[] countries = pCountries.split(", ");
-			System.out.println("Splitted one country: " + countries[0].toString());
-			for(int i=1; i<countries.length; i++){
-				//On presente les elements de l'enumeration de COUNTRY
-				System.out.println("Splitted other country: " + countries[i].toString());
+			for (Iterator<Film> iterator = resultfilms.iterator(); iterator.hasNext();){
+				Film film = (Film) iterator.next(); 
+				if (!film.getTitle().toLowerCase().contains(pTitle.toLowerCase())){
+					iterator.remove();
+				}
 			}
+		}
+		if(!(pCountry.isEmpty())){
+			
+			for (Iterator<Film> iterator = resultfilms.iterator(); iterator.hasNext();){
+				Film film = (Film) iterator.next();
+				boolean in = false;
+				if(film.getCountries().size()>0){
+					for (Country c : film.getCountries()){
+						if(c.getCountryName().equalsIgnoreCase(pCountry)){
+							in = true;
+						}
+					}
+				}
+				if (!in){
+					iterator.remove();
+				}
+			}
+			
 		}
 		if(!(pLanguage.isEmpty())){
-			System.out.println(pLanguage);
+			
+			for (Iterator<Film> iterator = resultfilms.iterator(); iterator.hasNext();){
+				Film film = (Film) iterator.next(); 
+				if (!film.getLanguage().toLowerCase().contains(pLanguage.toLowerCase())){
+					iterator.remove();
+				}
+			}
+			
 		}
-		if(!(pGenres.isEmpty())){
-			//On separe les elements de l'enumeration
-			String[] genres = pGenres.split(", ");
-			System.out.println("Splitted one language: " + genres[0].toString());
-			for(int i=1; i<genres.length; i++){
-				//On presente les elements de l'enumeration
-				System.out.println("Splitted other language: " + genres[i].toString());
+		if(!(pGenre.isEmpty())){
+			for (Iterator<Film> iterator = resultfilms.iterator(); iterator.hasNext();){
+				Film film = (Film) iterator.next();
+				boolean in = false;
+				if(film.getGenres().size()>0){
+					for (Genre g : film.getGenres()){
+						if(g.getGenreName().equalsIgnoreCase(pGenre)){
+							in = true;
+						}
+					}
+				}
+				if (!in){
+					iterator.remove();
+				}
 			}
 		}
+		
 		if(!(pRealisateur.isEmpty())){
-			System.out.print(pRealisateur);
-		}
-		if(!(pActors.isEmpty())){
-			//On separe les elements de l'enumeration
-			String[] actors = pActors.split(", ");
-			System.out.println("Splitted one actor: " + actors[0].toString());
-			for(int i=1; i<actors.length; i++){
-				//On presente les elements de l'enumeration
-				System.out.println("Splitted other actor: " + actors[i].toString());
+			for (Iterator<Film> iterator = resultfilms.iterator(); iterator.hasNext();){
+				Film film = (Film) iterator.next(); 
+				if (!film.getDirector().getName().toLowerCase().contains(pRealisateur.toLowerCase())){
+					iterator.remove();
+				}
 			}
 		}
-		if(pMinYear>0 && pMaxYear>0){
-			//TODO: On cherche un film entre les pMinYear et pMaxYear
-			System.out.println("On cherche un film entre les pMinYear="+pMinYear+" et pMaxYear="+pMaxYear);
-		}else if(pMinYear !=0){
-			//TODO: On cherche un film apres l'an pMinYear
-			System.out.println("On cherche un film apres l'an pMinYear=" + pMinYear);
-		}else if(pMaxYear !=0){
-			//TODO: On cherche un film apres l'an pMaxYear
-			System.out.println("On cherche un film entre les pMaxYear=" + pMaxYear);
+		if(!(pActor.isEmpty())){
+			for (Iterator<Film> iterator = resultfilms.iterator(); iterator.hasNext();){
+				Film film = (Film) iterator.next();
+				boolean in = false;
+				if(film.getActorFilmRoles().size()>0){
+					for (ActorFilmRole ac : film.getActorFilmRoles()){
+						if(ac.getArtist().getName().toLowerCase().contains(pActor.toLowerCase())){
+							in = true;
+						}
+					}
+				}
+				if (!in){
+					iterator.remove();
+				}
+			}
 		}
-		//--------FIN DE : FORMATION DE REQUETE ----------
-		//------------------------------------------------
-		if(	requestTitle || requestCountries || requestLanguage
-			|| requestRealisateur || requestActors || requestYear ){
-			if(requestTitle)
-				request += " title = :title";
-			if(requestCountries)
-				request += " title = :title";
-			if(requestLanguage)
-				request += " title = :title";
-			if(requestRealisateur)
-				request += " title = :title";
-			if(requestActors)
-				request += " title = :title";
-			if(requestYear)
-				request += " title = :title";
+		
+		if(pMinYear != null){
+			for (Iterator<Film> iterator = resultfilms.iterator(); iterator.hasNext();){
+				Film film = (Film) iterator.next(); 
+				if (film.getYear() < pMinYear){
+					iterator.remove();
+				}
+			}
 		}
-		//Query query = Main.getSessionHome().createQuery(request);
 		
-		//TODO: filmsBySearch contient les resultats
-		//filmsBySearch = RESULTATs
+		if(pMaxYear != null){
+			for (Iterator<Film> iterator = resultfilms.iterator(); iterator.hasNext();){
+				Film film = (Film) iterator.next(); 
+				if (film.getYear() > pMaxYear){
+					iterator.remove();
+				}
+			}
+		}
 		
-		//FORMAT STRING pour l'affichage
-		filmSearchResults = listFilmYearString(filmsBySearch);
-		//On retourne cette liste de film
-		return filmSearchResults;
+		filmSearchResults = resultfilms;
+		
+		return resultfilms;
 	}
 	
 	private ArrayList<String> listFilmYearString(ArrayList<Film> pFilmsBySearch){
@@ -211,7 +257,7 @@ public class FilmDataRequester {
      * ------------------------------------------------------ */
 	public Film getSelectedFilmInfo(int pFilmSearchResultsIndex){
 		//On retourne le film en question
-		return filmsBySearch.get(pFilmSearchResultsIndex);
+		return filmSearchResults.get(pFilmSearchResultsIndex);
 	}
 
 	public ArrayList<Film> getFilmsBySearch() {

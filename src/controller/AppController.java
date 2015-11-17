@@ -1,6 +1,5 @@
 package controller;
 
-import java.lang.reflect.InvocationTargetException;
 /**
  * Sample Skeleton for 'WebFlixApp.fxml' Controller Class
  */
@@ -12,15 +11,17 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
+import org.hibernate.Transaction;
 
 import application.Main;
 import db.ActorFilmRole;
 import db.ClientUserInfo;
+import db.Copy;
 import db.Country;
 import db.Film;
 import db.Genre;
-import db.Plan;
-import db.Utilisateur;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -28,7 +29,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.event.ActionEvent;
 
 public class AppController implements Initializable{	
     /* ------------------
@@ -119,6 +119,7 @@ public class AppController implements Initializable{
 	
 	private ArtistDataRequester aDataRequester;
 	private FilmDataRequester fDataRequester;
+	private Film currentFilm;
 	
     /* ----------
      *  Methodes
@@ -171,6 +172,8 @@ public class AppController implements Initializable{
 
         		list_Films.getItems().clear();
         		list_Films.getItems().add("Bienvenu " + currentUserInfo.getFirstName());
+        		fDataRequester.loadFilms();
+        		
         	}else{
         		list_Films.getItems().clear();
         		list_Films.getItems().add("La combinaison d'adresse courriel et mot de passe de passe ");
@@ -198,8 +201,8 @@ public class AppController implements Initializable{
     		list_Films.getItems().add("enregistrée à un forfait offert par les services WebFlix");
     		list_Films.getItems().add("afin de pouvoir consulter notre catalogue de film.");
     	}else{
-	    	int minYear = 0;
-	    	int maxYear = 0;
+	    	Integer minYear = null;
+	    	Integer maxYear = null;
 	    	//On traite le cas ou les annees entrees ne seraient pas un nombre
 	    	if(!(txt_Search_anMin.getText().isEmpty())){
 	    		try{
@@ -234,6 +237,59 @@ public class AppController implements Initializable{
     @FXML
     public void clickBtnLocation(ActionEvent e) {
     	System.out.println("clickBtnLocation");
+    	Transaction tr = Main.getSessionHome().beginTransaction();
+    	String q = ("SELECT COUNT(*) FROM Copy C WHERE C.userId = :userid");
+    	SQLQuery query = Main.getSessionHome().createSQLQuery(q);
+    	query.setParameter("userid", currentUserInfo.getUserId());
+    	List result = query.list();
+    	int nbFilmLoue = Integer.valueOf(result.get(0).toString());
+    	
+    	int nbFilmPossible = currentUserInfo.getPlan().getMaxLocation();
+    	
+    	q = ("SELECT COUNT(*) FROM Copy C WHERE C.filmId = :filmid AND C.userId IS NOT NULL");
+    	query = Main.getSessionHome().createSQLQuery(q);
+    	query.setParameter("filmid", currentFilm.getFilmId());
+    	result = query.list();
+    	Integer nbCopyLoue = Integer.valueOf(result.get(0).toString());
+    	System.out.println("Copy louée" + nbCopyLoue);
+    	
+    	if (nbFilmLoue<nbFilmPossible && nbCopyLoue<currentFilm.getOriginalCopyNumber()){
+        	System.out.println(nbCopyLoue-currentFilm.getOriginalCopyNumber());
+
+//    		String hql = "UPDATE Copy set userId = :userid "  + 
+//    	             "WHERE filmId = :filmid AND userId = null";
+//    		Query qu = Main.getSessionHome().createSQLQuery(hql);
+//    		qu.setParameter("userid", currentUserInfo.getUserId());
+//    		qu.setParameter("filmid", currentFilm.getFilmId());
+//    		int result1 = query.executeUpdate();
+//    		System.out.println("Rows affected: " + result);
+        	
+        	String queryString = "FROM Copy C where C.userId=null and C.filmId=:filmid";
+        	Query query3 = Main.getSessionHome().createQuery(queryString);
+        	query3.setInteger("filmid",currentFilm.getFilmId());
+        	Copy copy = (Copy)query3.list().get(0);
+        	
+        	copy.setUserId(currentUserInfo.getUserId());
+        	copy.setRented(true);
+        	Main.getSessionHome().update(copy);
+        	
+        	tr.commit();
+        	
+        	tr = Main.getSessionHome().beginTransaction();
+        	q = ("SELECT COUNT(*) FROM Copy C WHERE C.filmId = :filmid AND C.userId IS NULL");
+        	query = Main.getSessionHome().createSQLQuery(q);
+        	query.setParameter("filmid", currentFilm.getFilmId());
+        	result = query.list();
+        	Integer nbCopyDispo = Integer.valueOf(result.get(0).toString());
+        	
+            txt_InfoFilm_nbCopies.setText(nbCopyDispo.toString());
+            tr.commit();
+    	}
+    	
+    	
+    	
+    	
+    	
     }
     
 
@@ -277,10 +333,10 @@ public class AppController implements Initializable{
     /*
      * @param arrayFilm Table des film d'un resultat de recherche
      */
-    private void populateListFilms(ArrayList<String> arrayFilm){
+    private void populateListFilms(List<Film> films){
     	list_Films.getItems().clear();
-    	for(int i=0; i<arrayFilm.size(); i++){
-    		list_Films.getItems().add(arrayFilm.get(i).toString());
+    	for(int i=0; i<films.size(); i++){
+    		list_Films.getItems().add(films.get(i).getTitle() + "\t" + films.get(i).getYear());
     	}
     }
     /*
@@ -288,11 +344,21 @@ public class AppController implements Initializable{
      * @param pSelectedFilm Film dont les informations sont demandees
      */
     private void populateFilmInformations(Film pSelectedFilm){
+    	currentFilm = pSelectedFilm;
         txt_SynopsisFilm.setText(pSelectedFilm.getSummary());
         txt_InfoFilm_Titre.setText(pSelectedFilm.getTitle());
         txt_InfoFilm_Annee.setText(pSelectedFilm.getYear().toString());
         txt_InfoFilm_Duree.setText(pSelectedFilm.getDuration().toString());
         txt_InfoFilm_Langue.setText(pSelectedFilm.getLanguage());
+        
+        
+        String q = ("SELECT COUNT(*) FROM Copy C WHERE C.filmId = :filmid AND C.userId IS NULL");
+    	SQLQuery query = Main.getSessionHome().createSQLQuery(q);
+    	query.setParameter("filmid", currentFilm.getFilmId());
+    	List result = query.list();
+    	Integer nbCopyDispo = Integer.valueOf(result.get(0).toString());
+    	
+        txt_InfoFilm_nbCopies.setText(nbCopyDispo.toString());
         //Iteration des genres
         String genres = "";
         Iterator<Genre> genreIt = pSelectedFilm.getGenres().iterator();
@@ -319,7 +385,7 @@ public class AppController implements Initializable{
         
         //TODO: populateListActeurs
         populateListActeurs(pSelectedFilm.getActorFilmRoles());
-        updateRealisateurBtn(pSelectedFilm.getDirector().getName());
+        btn_Realisateur.setText(pSelectedFilm.getDirector().getName().toString());
         //aDataRequester.getActorsByFilm(pSelectedFilm.getFilmId());
     }
 
@@ -334,6 +400,7 @@ public class AppController implements Initializable{
     	Iterator<ActorFilmRole> actorsRoleIt = pSetActorFilmRole.iterator();
     	//On parcours 
     	while(actorsRoleIt.hasNext()){
+    		currentActorRoleString = "";
     		currentActorRoleString +=  actorsRoleIt.next().getArtist().getName().toString();
     		currentActorRoleString +=  " (";
     		currentActorRoleString +=  actorsRoleIt.next().getCharacterName().toString();

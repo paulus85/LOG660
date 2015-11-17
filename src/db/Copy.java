@@ -61,6 +61,14 @@ public class Copy {
 	public void setFilmId(Integer filmId) {
 		this.filmId = filmId;
 	}
+
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
 	
 	
 }
