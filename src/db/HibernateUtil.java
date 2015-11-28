@@ -24,6 +24,7 @@ private static final SessionFactory sessionFactory;
                     .addAnnotatedClass(Film.class)
                     .addAnnotatedClass(ActorFilmRole.class)
                     .addAnnotatedClass(ActorFilmRoleId.class)
+                    .addAnnotatedClass(Moyenne.class)
                     .buildSessionFactory();
         } catch (Throwable ex) {
             // Log exception!

@@ -16,6 +16,7 @@ import db.Artist;
 import db.Country;
 import db.Film;
 import db.Genre;
+import db.Moyenne;
 
 public class FilmDataRequester {
     /* ---------------------
@@ -267,4 +268,19 @@ public class FilmDataRequester {
 	public void setFilmsBySearch(ArrayList<Film> filmsBySearch) {
 		this.filmsBySearch = filmsBySearch;
 	}
+	
+	/* ------------------------------------------------------
+     *  METHODES POUR LES COTES ET RECOMMENDATIONS
+     * ------------------------------------------------------ */
+	
+	public Float getMoyenneCote(Integer filmid) {
+		Moyenne m = (Moyenne) Main.getSessionHome().get(Moyenne.class, filmid);
+		return m.getMoyenne();
+	}
+	
+	
+	
+	
+	
+	
 }

@@ -18,6 +18,10 @@ public class Main {
 		try{
 			transaction = sessionHome.beginTransaction();
 
+			//Correlation c = sessionHome.createQuery("from vue_correlation where film1 = :film1 and film");
+			int filmid = 132;
+			int userid = 21593;
+			String sql = "select film2 from vue_correlation where film1 = " + filmid + "and not exists (<<liste des films loués par userid>>)";
 
 //			Set<Scenarist> scenaristes = new HashSet<Scenarist>();
 //			scenaristes.add(new Scenarist("NOM1"));
