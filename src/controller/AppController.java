@@ -64,7 +64,12 @@ public class AppController implements Initializable{
     @FXML // fx:id="txt_InfoFilm_Langue"
     private TextField txt_InfoFilm_Langue; // Value injected by FXMLLoader
     @FXML // fx:id="txt_InfoFilm_nbCopies"
-    private TextField txt_InfoFilm_nbCopies; // Value injected by FXMLLoader
+    private TextField txt_InfoFilm_nbCopies; // Value injected by FXMLLoade
+    
+    // TODO Create TextField txt_InfoFilm_cote - pour les cotes des films
+
+    // TODO Create ListView<String> list_Recommandations - pour les films recommandés 
+    
     @FXML // fx:id="txt_InfoFilm_nbCopies"
     private Button btn_Location; // Value injected by FXMLLoader
     /* ----------------------------------------------------------------- */

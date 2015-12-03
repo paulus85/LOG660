@@ -1,14 +1,19 @@
 package controller;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 import org.hibernate.Query;
-import org.hibernate.SQLQuery;
 
 import application.Main;
 import db.ActorFilmRole;
@@ -277,6 +282,64 @@ public class FilmDataRequester {
 		Moyenne m = (Moyenne) Main.getSessionHome().get(Moyenne.class, filmid);
 		return m.getMoyenne();
 	}
+	
+	public HashMap<String,Float> getRecommendations(Integer filmid, Integer clientid){
+		try {
+			Connection c = connectionBD();
+			c.setAutoCommit(true);
+			HashMap<String,Float> res = new HashMap<String,Float>();
+		
+			PreparedStatement stm = c.prepareStatement("select f.TITLE, v.CORRELATION from VUE_CORRELATION v, FILM f"+" where FILM1 = ? and v.FILM1=f.FILMID and not EXISTS ("
+			+ "select 1 from copy where copy.USERID = ? and copy.FILMID=v.FILM2"
+			+ ") order by CORRELATION desc fetch first 3 rows only");
+			stm.setInt(1, filmid);
+			stm.setInt(2, clientid);
+			
+			ResultSet rs = stm.executeQuery();
+			while(rs.next()) {
+				String film2 = rs.getString("title");
+				float correlation = rs.getFloat("correlation");
+				res.put(film2,correlation);
+			}
+			return res;
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		return null;
+	}
+	
+	/* ------------------------------------------------------
+     *  METHODES AUXILIAIRES
+     * ------------------------------------------------------ */
+	
+	private Connection connectionBD(){
+		Connection connection;
+	      // On se connecte a la BD
+		   try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+		} catch (ClassNotFoundException e) {
+			System.out.println("Erreur : classe de connexion introuvable.");
+			e.printStackTrace();
+			
+		}
+		   System.out.println("Connection...");
+		   connection = null;
+		   try {
+			connection = DriverManager.getConnection("jdbc:oracle:thin:@big-data-3.logti.etsmtl.ca:1521:LOG660","equipe26","wKuQnSpQ" );
+		} catch (SQLException e) {
+			System.out.println("Erreur dans la connection à la base");
+			e.printStackTrace();
+		}
+		   
+		   if(connection == null) {
+			   System.out.println("Erreur de connection à la base");
+		   } else {
+			   System.out.println("Connecté à la base !");
+		   }
+		   return connection;
+	   }
 	
 	
 	
