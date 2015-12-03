@@ -65,11 +65,10 @@ public class AppController implements Initializable{
     private TextField txt_InfoFilm_Langue; // Value injected by FXMLLoader
     @FXML // fx:id="txt_InfoFilm_nbCopies"
     private TextField txt_InfoFilm_nbCopies; // Value injected by FXMLLoade
-    
-    // TODO Create TextField txt_InfoFilm_cote - pour les cotes des films
-
-    // TODO Create ListView<String> list_Recommandations - pour les films recommandés 
-    
+    @FXML // fx:id="txt_InfoFilm_Cote"
+    private TextField txt_InfoFilm_Cote; // Value injected by FXMLLoader
+    @FXML // fx:id="list_Recommandations"
+    private ListView<String> list_Recommandations; // Value injected by FXMLLoader
     @FXML // fx:id="txt_InfoFilm_nbCopies"
     private Button btn_Location; // Value injected by FXMLLoader
     /* ----------------------------------------------------------------- */
@@ -312,11 +311,14 @@ public class AppController implements Initializable{
 			Film selectedFilm = fDataRequester.getSelectedFilmInfo(selectedFilmIndex);
 			
 			//Assignation des informations du film aux champs
-			populateFilmInformations(selectedFilm);
+			populateFilmInformations(selectedFilm, fDataRequester.getMoyenneCote(selectedFilm.getFilmId()));
 			
 			//populateListActeurs(aDataRequester.getActorsByFilm(selectedFilmIndex));
 			//updateRealisateurBtn(aDataRequester.getRealisateurByFilm(selectedFilmIndex));
 			//populateListScenariste(aDataRequester.getScenaristsByFilm(selectedFilmIndex));
+			
+			// TODO : Changer le HASHMAP pour une Liste<String>
+			populateListRecommendations(fDataRequester.getRecommendations(selectedFilmIndex, currentUserInfo.getUserId()));
 			
 			System.out.println(selectedFilmIndex);
 		}
@@ -348,7 +350,7 @@ public class AppController implements Initializable{
      * On popule les champs texte de la fiche d'information du Film selectionne
      * @param pSelectedFilm Film dont les informations sont demandees
      */
-    private void populateFilmInformations(Film pSelectedFilm){
+    private void populateFilmInformations(Film pSelectedFilm, int pSelectedFilmCote){
     	currentFilm = pSelectedFilm;
         txt_SynopsisFilm.setText(pSelectedFilm.getSummary());
         txt_InfoFilm_Titre.setText(pSelectedFilm.getTitle());
@@ -385,7 +387,9 @@ public class AppController implements Initializable{
                 countries += ", ";
             }
         }
+        
         txt_InfoFilm_Pays.setText(countries);
+        txt_InfoFilm_Cote.setText(String.valueOf(pSelectedFilmCote));
         
         
         //TODO: populateListActeurs
@@ -427,6 +431,17 @@ public class AppController implements Initializable{
     	
     	for(int i=0; i<arrayScenaristes.size(); i++){
     		list_Scenaristes.getItems().add(arrayScenaristes.get(i).toString());
+    	}
+    }
+
+    /*
+     * @param arrayRecommandations Table des films recommandés pour un film
+     */
+    private void populateListRecommandations(ArrayList<String> arrayRecommandations){
+    	list_Recommandations.getItems().clear();
+    	
+    	for(int i=0; i<arrayRecommandations.size(); i++){
+    		list_Recommandations.getItems().add(arrayRecommandations.get(i).toString());
     	}
     }
 }

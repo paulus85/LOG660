@@ -318,7 +318,7 @@
                                                             <Insets bottom="5.0" left="5.0" top="5.0" />
                                                          </HBox.margin>
                                                       </Label>
-                                                      <TextField fx:id="txt_InfoArt_Prenom1" editable="false" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="50.0" HBox.hgrow="ALWAYS">
+                                                      <TextField fx:id="txt_InfoFilm_Cote" editable="false" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="50.0" HBox.hgrow="ALWAYS">
                                                          <HBox.margin>
                                                             <Insets left="5.0" right="5.0" />
                                                          </HBox.margin>
@@ -392,7 +392,7 @@
                                  <content>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <ListView prefHeight="284.0" prefWidth="395.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                                          <ListView fx:id="list_Recommandations" prefHeight="284.0" prefWidth="395.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
                                        </children>
                                     </AnchorPane>
                                  </content>
