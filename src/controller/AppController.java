@@ -318,7 +318,7 @@ public class AppController implements Initializable{
 			//populateListScenariste(aDataRequester.getScenaristsByFilm(selectedFilmIndex));
 			
 			// TODO : Changer le HASHMAP pour une Liste<String>
-			populateListRecommendations(fDataRequester.getRecommendations(selectedFilmIndex, currentUserInfo.getUserId()));
+			populateListRecommandations(fDataRequester.getRecommendations(selectedFilmIndex, currentUserInfo.getUserId()));
 			
 			System.out.println(selectedFilmIndex);
 		}

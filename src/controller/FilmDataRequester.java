@@ -283,11 +283,11 @@ public class FilmDataRequester {
 		return m.getMoyenne();
 	}
 	
-	public HashMap<String,Float> getRecommendations(Integer filmid, Integer clientid){
+	public ArrayList<String> getRecommendations(Integer filmid, Integer clientid){
 		try {
 			Connection c = connectionBD();
 			c.setAutoCommit(true);
-			HashMap<String,Float> res = new HashMap<String,Float>();
+			ArrayList<String> res = new ArrayList<String>();
 		
 			PreparedStatement stm = c.prepareStatement("select f.TITLE, v.CORRELATION from VUE_CORRELATION v, FILM f"+" where FILM1 = ? and v.FILM1=f.FILMID and not EXISTS ("
 			+ "select 1 from copy where copy.USERID = ? and copy.FILMID=v.FILM2"
@@ -299,7 +299,7 @@ public class FilmDataRequester {
 			while(rs.next()) {
 				String film2 = rs.getString("title");
 				float correlation = rs.getFloat("correlation");
-				res.put(film2,correlation);
+				res.add(film2);
 			}
 			return res;
 			
