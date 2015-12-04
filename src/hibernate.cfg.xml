@@ -5,10 +5,10 @@
 <hibernate-configuration>
     <session-factory>
         <property name="hibernate.connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
-        <property name="hibernate.connection.password">wKuQnSpQ</property>
+        <property name="hibernate.connection.password">wCZYBvQ1</property>
         <property name="hibernate.connection.url">jdbc:oracle:thin:@big-data-3.logti.etsmtl.ca:1521:LOG660</property>
-        <property name="hibernate.connection.username">equipe26</property>
-        <property name="hibernate.default_schema">EQUIPE26</property>
+        <property name="hibernate.connection.username">equipe33</property>
+        <property name="hibernate.default_schema">EQUIPE33</property>
         <property name="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</property>
     </session-factory>
 </hibernate-configuration>

@@ -318,7 +318,7 @@ public class AppController implements Initializable{
 			//populateListScenariste(aDataRequester.getScenaristsByFilm(selectedFilmIndex));
 			
 			// TODO : Changer le HASHMAP pour une Liste<String>
-			populateListRecommandations(fDataRequester.getRecommendations(selectedFilmIndex, currentUserInfo.getUserId()));
+			populateListRecommandations(fDataRequester.getRecommendations(selectedFilm.getFilmId(), currentUserInfo.getUserId()));
 			
 			System.out.println(selectedFilmIndex);
 		}
@@ -350,7 +350,7 @@ public class AppController implements Initializable{
      * On popule les champs texte de la fiche d'information du Film selectionne
      * @param pSelectedFilm Film dont les informations sont demandees
      */
-    private void populateFilmInformations(Film pSelectedFilm, int pSelectedFilmCote){
+    private void populateFilmInformations(Film pSelectedFilm, String pSelectedFilmCote){
     	currentFilm = pSelectedFilm;
         txt_SynopsisFilm.setText(pSelectedFilm.getSummary());
         txt_InfoFilm_Titre.setText(pSelectedFilm.getTitle());
@@ -389,7 +389,7 @@ public class AppController implements Initializable{
         }
         
         txt_InfoFilm_Pays.setText(countries);
-        txt_InfoFilm_Cote.setText(String.valueOf(pSelectedFilmCote));
+        txt_InfoFilm_Cote.setText(pSelectedFilmCote);
         
         
         //TODO: populateListActeurs
@@ -409,10 +409,11 @@ public class AppController implements Initializable{
     	Iterator<ActorFilmRole> actorsRoleIt = pSetActorFilmRole.iterator();
     	//On parcours 
     	while(actorsRoleIt.hasNext()){
+    		ActorFilmRole afr = actorsRoleIt.next();
     		currentActorRoleString = "";
-    		currentActorRoleString +=  actorsRoleIt.next().getArtist().getName().toString();
+    		currentActorRoleString +=  afr.getArtist().getName().toString();
     		currentActorRoleString +=  " (";
-    		currentActorRoleString +=  actorsRoleIt.next().getCharacterName().toString();
+    		currentActorRoleString +=  afr.getCharacterName().toString();
     		currentActorRoleString +=  ")";
     		actorsRoleIt.remove();
     		list_Acteurs.getItems().add(currentActorRoleString);

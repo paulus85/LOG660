@@ -1,13 +1,14 @@
 package controller;
 
+import java.math.RoundingMode;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -278,29 +279,33 @@ public class FilmDataRequester {
      *  METHODES POUR LES COTES ET RECOMMENDATIONS
      * ------------------------------------------------------ */
 	
-	public Float getMoyenneCote(Integer filmid) {
+	public String getMoyenneCote(Integer filmid) {
 		Moyenne m = (Moyenne) Main.getSessionHome().get(Moyenne.class, filmid);
-		return m.getMoyenne();
+		DecimalFormat df = new DecimalFormat("#.##");
+		df.setRoundingMode(RoundingMode.CEILING);
+		
+		return df.format((m.getMoyenne()).doubleValue());
 	}
 	
 	public ArrayList<String> getRecommendations(Integer filmid, Integer clientid){
+		Connection c;
 		try {
-			Connection c = connectionBD();
+			c = connectionBD();
 			c.setAutoCommit(true);
 			ArrayList<String> res = new ArrayList<String>();
 		
-			PreparedStatement stm = c.prepareStatement("select f.TITLE, v.CORRELATION from VUE_CORRELATION v, FILM f"+" where FILM1 = ? and v.FILM1=f.FILMID and not EXISTS ("
-			+ "select 1 from copy where copy.USERID = ? and copy.FILMID=v.FILM2"
-			+ ") order by CORRELATION desc fetch first 3 rows only");
+			String sql = "select TITLE from VUE_CORRELATION v, FILM f where v.FILM1 =? and v.FILM2 = f.FILMID and not EXISTS (select 1 from copy where copy.USERID =? and copy.FILMID=v.FILM2) order by CORRELATION desc fetch first 3 rows only";
+			PreparedStatement stm = c.prepareStatement(sql);
 			stm.setInt(1, filmid);
 			stm.setInt(2, clientid);
 			
 			ResultSet rs = stm.executeQuery();
 			while(rs.next()) {
-				String film2 = rs.getString("title");
-				float correlation = rs.getFloat("correlation");
-				res.add(film2);
+				String filmName = rs.getString(1);
+				res.add(filmName);
 			}
+			
+			c.close();
 			return res;
 			
 		} catch (SQLException e) {
@@ -327,7 +332,7 @@ public class FilmDataRequester {
 		   System.out.println("Connection...");
 		   connection = null;
 		   try {
-			connection = DriverManager.getConnection("jdbc:oracle:thin:@big-data-3.logti.etsmtl.ca:1521:LOG660","equipe26","wKuQnSpQ" );
+			connection = DriverManager.getConnection("jdbc:oracle:thin:@big-data-3.logti.etsmtl.ca:1521:LOG660","equipe33","wCZYBvQ1" );
 		} catch (SQLException e) {
 			System.out.println("Erreur dans la connection à la base");
 			e.printStackTrace();
