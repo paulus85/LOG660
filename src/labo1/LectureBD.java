@@ -368,23 +368,25 @@ private static Connection connection;
    }   
    
    private void insertionPersonne(int id, String nom, String anniv, String lieu, String photo, String bio) throws SQLException { 
-	   CallableStatement statement = connection.prepareCall("{ ? = call AddArtistFunc(?,?,?,?)");
-	   statement.setString(2, nom);
-	   statement.setString(4,lieu);
+	   CallableStatement statement = connection.prepareCall("{ ? = call AddArtistFunc(?,?,?,?,?)");
+	   statement.setInt(2, id);
+	   statement.setString(3, nom);
+	   statement.setString(5,lieu);
 	   
 	   if(bio != null && bio.length() >= 3000) {
 		   bio = bio.substring(0, 2999);
 	   }
-	   statement.setString(5, bio);
+	   statement.setString(6, bio);
 	   
 	   if (anniv != null) {
-		   statement.setDate(3, Date.valueOf(anniv));
+		   statement.setDate(4, Date.valueOf(anniv));
 	   } else {
-		   statement.setDate(3, null);
+		   statement.setDate(4, null);
 	   }
 	   statement.registerOutParameter(1, java.sql.Types.INTEGER);
 	   //Execution de la requête
 	   statement.execute();
+	   System.out.println("Personne : " + id);
 	   statement.close();
 	  
    }
@@ -431,15 +433,16 @@ private static Connection connection;
 	   
 	   
 	   
-	   CallableStatement statementFilm = connection.prepareCall("{ ? = call AddFilmFunc(?,?,?,?,?,?,?)");
-	   statementFilm.setString(2, titre);
-	   statementFilm.setInt(3, annee);
-	   statementFilm.setString(4, langue);
-	   statementFilm.setInt(5, duree);
+	   CallableStatement statementFilm = connection.prepareCall("{ ? = call AddFilmFunc(?,?,?,?,?,?,?,?)");
+	   statementFilm.setInt(2, id);
+	   statementFilm.setString(3, titre);
+	   statementFilm.setInt(4, annee);
+	   statementFilm.setString(5, langue);
+	   statementFilm.setInt(6, duree);
 	   Random generator = new Random();
-	   statementFilm.setInt(6, generator.nextInt(99)+1);
-	   statementFilm.setString(7, resume);
-	   statementFilm.setString(8, realisateurNom);
+	   statementFilm.setInt(7, generator.nextInt(99)+1);
+	   statementFilm.setString(8, resume);
+	   statementFilm.setString(9, realisateurNom);
 	   statementFilm.registerOutParameter(1, java.sql.Types.INTEGER);
 	   try {
 		statementFilm.execute();
@@ -492,7 +495,7 @@ private static Connection connection;
 		   statementAssoPays.close();
 	   }
 	   
-	   
+	   System.out.println("Film : " + id);
 	
    }
    
@@ -503,24 +506,25 @@ private static Connection connection;
                              int expMois, int expAnnee, String motDePasse,
                              String forfait) throws SQLException {
 	   
-	   CallableStatement statement = connection.prepareCall("{call AddUserProc(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-	   statement.setString(1, nomFamille);
-	   statement.setString(2, prenom);
-	   statement.setString(3, tel);
-	   statement.setDate(4, Date.valueOf(anniv));
-	   statement.setString(5, courriel);
-	   statement.setString(6, motDePasse);
-	   statement.setString(7, adresse);
-	   statement.setString(8, ville);
-	   statement.setString(9, province);
-	   statement.setString(10, codePostal);
-	   statement.setString(11, forfait);
-	   statement.setString(12, noCarte);
-	   statement.setInt(13,expMois);
-	   statement.setInt(14,expAnnee);
-	   statement.setInt(15,000);
+	   CallableStatement statement = connection.prepareCall("{call AddUserProc(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+	   statement.setInt(1,id);
+	   statement.setString(2, nomFamille);
+	   statement.setString(3, prenom);
+	   statement.setString(4, tel);
+	   statement.setDate(5, Date.valueOf(anniv));
+	   statement.setString(6, courriel);
+	   statement.setString(7, motDePasse);
+	   statement.setString(8, adresse);
+	   statement.setString(9, ville);
+	   statement.setString(10, province);
+	   statement.setString(11, codePostal);
+	   statement.setString(12, forfait);
+	   statement.setString(13, noCarte);
+	   statement.setInt(14,expMois);
+	   statement.setInt(15,expAnnee);
+	   statement.setInt(16,000);
 	   // Pas de renseignements sur le cvv
-	   statement.setString(16, carte);
+	   statement.setString(17, carte);
 	   
 	   try {
 		statement.execute();
@@ -529,7 +533,7 @@ private static Connection connection;
 		e.printStackTrace();
 	}
 	   statement.close();
-      
+      System.out.println("Client : " + id);
    }
    
    /**
@@ -547,7 +551,7 @@ private void connectionBD(){
 	   System.out.println("Connection...");
 	   connection = null;
 	   try {
-		connection = DriverManager.getConnection("jdbc:oracle:thin:@big-data-3.logti.etsmtl.ca:1521:LOG660","equipe26","wKuQnSpQ" );
+		connection = DriverManager.getConnection("jdbc:oracle:thin:@big-data-3.logti.etsmtl.ca:1521:LOG660","equipe33","wCZYBvQ1" );
 	} catch (SQLException e) {
 		System.out.println("Erreur dans la connection à la base");
 		e.printStackTrace();

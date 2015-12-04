@@ -152,7 +152,7 @@ CREATE TABLE Copy (
     rented          NUMBER(1)       NOT NULL,
     dateLoc         DATE          DEFAULT NULL,
     PRIMARY KEY (copyId),
-    FOREIGN KEY (filmId) REFERENCES Film
+    FOREIGN KEY (filmId) REFERENCES Film,
     FOREIGN KEY (userId) REFERENCES ClientUserInfo
 );
 
@@ -214,6 +214,7 @@ CREATE SEQUENCE CopySeq
 
 --Ajout d'un nouvel utilisateur
 CREATE OR REPLACE PROCEDURE AddUserProc (
+    add_userid          INTEGER,
     add_lastName        VARCHAR2,
     add_firstName       VARCHAR2,
     add_PhoneNumber     VARCHAR2,
@@ -267,7 +268,7 @@ CREATE OR REPLACE PROCEDURE AddUserProc (
             password,
             adresseId)
         VALUES (
-            UserSeq.NEXTVAL,
+            add_userid,
             add_lastName,
             add_firstName,
             add_PhoneNumber,
@@ -285,7 +286,7 @@ CREATE OR REPLACE PROCEDURE AddUserProc (
             cvv,
             creditCardType)
         VALUES (
-            UserSeq.CURRVAL,
+            add_userid,
             plan,
             add_cardNumber,
             add_expirationMonth,
@@ -302,6 +303,7 @@ CREATE OR REPLACE PROCEDURE AddUserProc (
 --Ajout d'un Artiste
 
 CREATE OR REPLACE FUNCTION AddArtistFunc (
+    add_artistid	INTEGER,
     add_name            VARCHAR2,
     add_birthday        DATE,
     add_birthPlace      VARCHAR2,
@@ -327,13 +329,13 @@ CREATE OR REPLACE FUNCTION AddArtistFunc (
                 birthPlace,
                 biography)
             VALUES (
-                ArtistSeq.NEXTVAL,
+                add_artistid,
                 add_name,
                 add_birthday,
                 add_birthPlace,
                 add_biography
                 );
-            RETURN (ArtistSeq.CURRVAL);
+            RETURN (add_artistid);
         END IF;
     END AddArtistFunc;
 
@@ -449,6 +451,7 @@ CREATE OR REPLACE FUNCTION AddScenaristFunc (add_scenaristName VARCHAR2)
 
 --Ajout d'un film dans la base de donnée
 CREATE OR REPLACE FUNCTION AddFilmFunc (
+    add_filmId          INTEGER,
     add_title           VARCHAR2,
     add_year            INTEGER,
     add_language        VARCHAR2,
@@ -478,7 +481,7 @@ CREATE OR REPLACE FUNCTION AddFilmFunc (
             summary,
             directorId)
         VALUES (
-            FilmSeq.NEXTVAL,
+            add_filmId,
             add_title,
             add_year,
             add_language,
@@ -489,10 +492,10 @@ CREATE OR REPLACE FUNCTION AddFilmFunc (
 
         FOR indice IN 1..add_originalCopyNumber
         LOOP
-            INSERT INTO Copy(copyId,rented,filmId) VALUES (CopySeq.NEXTVAL,0,FilmSeq.CURRVAL);
+            INSERT INTO Copy(copyId,rented,filmId) VALUES (CopySeq.NEXTVAL,0,add_filmid);
         END LOOP;
 
-        RETURN (FilmSeq.CURRVAL);
+        RETURN (add_filmid);
 	
     END AddFilmFunc;
 
