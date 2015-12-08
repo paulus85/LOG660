@@ -149,6 +149,8 @@ public class AppController implements Initializable{
     private TextField analyseMAnnee; // Value injected by FXMLLoader
     @FXML // fx:id="analyseNbLocations"
     private TextField analyseNbLocations; // Value injected by FXMLLoader
+    @FXML // fx:id="btn_Analyse_Locations"
+    private TextField btn_Analyse_Locations; // Value injected by FXMLLoader
     /* ----------------------------------------------------------------- */
     
 
