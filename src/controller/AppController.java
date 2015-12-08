@@ -26,8 +26,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 
 public class AppController implements Initializable{	
@@ -112,6 +114,43 @@ public class AppController implements Initializable{
     private TextField txt_Search_Acteurs; // Value injected by FXMLLoader
     /* ----------------------------------------------------------------- */
     
+    /* ----- TextFields lies a l'ANALYSE des locations---- */
+    @FXML // fx:id="age1820"
+    private RadioButton age1820; // Value injected by FXMLLoader
+    @FXML // fx:id="age2125"
+    private RadioButton age2125; // Value injected by FXMLLoader
+    @FXML // fx:id="age2630"
+    private RadioButton age2630; // Value injected by FXMLLoader
+    @FXML // fx:id="age3135"
+    private RadioButton age3135; // Value injected by FXMLLoader
+    @FXML // fx:id="age3640"
+    private RadioButton age3640; // Value injected by FXMLLoader
+    @FXML // fx:id="age4145"
+    private RadioButton age4145; // Value injected by FXMLLoader
+    @FXML // fx:id="age4650"
+    private RadioButton age4650; // Value injected by FXMLLoader
+    @FXML // fx:id="age5155"
+    private RadioButton age5155; // Value injected by FXMLLoader
+    @FXML // fx:id="age5660"
+    private RadioButton age5660; // Value injected by FXMLLoader
+    @FXML // fx:id="age6165"
+    private RadioButton age6165; // Value injected by FXMLLoader
+    @FXML // fx:id="age6670"
+    private RadioButton age6670; // Value injected by FXMLLoader
+    @FXML // fx:id="age70plus"
+    private RadioButton age70plus; // Value injected by FXMLLoader    
+    @FXML // fx:id="grAge"
+    private ToggleGroup grAge; // Value injected by FXMLLoader   
+    @FXML // fx:id="analyseProvince"
+    private TextField analyseProvince; // Value injected by FXMLLoader
+    @FXML // fx:id="analyseJSemaine"
+    private TextField analyseJSemaine; // Value injected by FXMLLoader
+    @FXML // fx:id="analyseMAnnee"
+    private TextField analyseMAnnee; // Value injected by FXMLLoader
+    @FXML // fx:id="analyseNbLocations"
+    private TextField analyseNbLocations; // Value injected by FXMLLoader
+    /* ----------------------------------------------------------------- */
+    
 
     /* ---------------------
      *  Attributs de calcul
@@ -123,6 +162,7 @@ public class AppController implements Initializable{
 	
 	private ArtistDataRequester aDataRequester;
 	private FilmDataRequester fDataRequester;
+	private LocationAnalyser lAnalyser;
 	private Film currentFilm;
 	
     /* ----------
@@ -233,6 +273,32 @@ public class AppController implements Initializable{
 																txt_Search_Acteurs.getText()));
     	}
     }
+
+    @FXML
+    public void clickBtnAnalyser(ActionEvent e) {
+
+		System.out.println(analyseProvince.getText());
+		analyseNbLocations.setText(analyseProvince.getText());
+    	
+    	if(!sessionActive){
+        	list_Films.getItems().clear();
+    		list_Films.getItems().add("Veuiller vous connecter au système en vous authentifiant");
+    		list_Films.getItems().add("grâce à une combinaison d'un courriel et d'un mot de passe");
+    		list_Films.getItems().add("enregistrée à un forfait offert par les services WebFlix");
+    		list_Films.getItems().add("afin de pouvoir consulter notre catalogue de film.");
+    	}else{
+    		//On demande a compter le nombre de locations qualifiees
+    		int nbLocations = fDataRequester.countAnalyseLocations(	
+    												grAge.getSelectedToggle().toString(),
+    												analyseProvince.getText(),
+    												analyseJSemaine.getText(),
+    												analyseMAnnee.getText());
+    		
+    		analyseNbLocations.setText( "" + nbLocations);
+    	}
+    }
+    
+    
     @FXML
     public void clickBtnRealisateur(ActionEvent e) {
     	System.out.println("clickBtnRealisateur");

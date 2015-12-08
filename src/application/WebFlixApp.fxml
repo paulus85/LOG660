@@ -52,138 +52,250 @@
             </Pane>
             <SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0">
                <items>
-                  <SplitPane dividerPositions="0.4197324414715719, 0.5" orientation="VERTICAL">
+                  <SplitPane dividerPositions="0.48494983277591974" orientation="VERTICAL">
                      <items>
                         <ListView fx:id="list_Films" onMouseClicked="#clickListFilms" prefHeight="200.0" prefWidth="200.0" />
-                        <VBox prefHeight="262.0" prefWidth="395.0">
-                           <children>
-                              <HBox>
-                                 <children>
-                                    <Label text="Titre:">
-                                       <HBox.margin>
-                                          <Insets bottom="5.0" left="5.0" top="5.0" />
-                                       </HBox.margin>
-                                    </Label>
-                                    <TextField fx:id="txt_Search_Titre" promptText="Titre du film" HBox.hgrow="ALWAYS">
-                                       <HBox.margin>
-                                          <Insets left="5.0" right="5.0" />
-                                       </HBox.margin>
-                                    </TextField>
-                                 </children>
-                                 <VBox.margin>
-                                    <Insets top="5.0" />
-                                 </VBox.margin>
-                              </HBox>
-                              <HBox>
-                                 <children>
-                                    <Label prefWidth="150.0" text="Année de sortie:">
-                                       <HBox.margin>
-                                          <Insets bottom="5.0" left="5.0" top="5.0" />
-                                       </HBox.margin>
-                                    </Label>
-                                    <TextField fx:id="txt_Search_anMin" prefWidth="150.0" promptText="annéeMin" HBox.hgrow="ALWAYS">
-                                       <HBox.margin>
-                                          <Insets left="5.0" right="5.0" />
-                                       </HBox.margin>
-                                    </TextField>
-                                    <TextField fx:id="txt_Search_anMax" prefWidth="150.0" promptText="annéeMax">
-                                       <HBox.margin>
-                                          <Insets right="5.0" />
-                                       </HBox.margin>
-                                    </TextField>
-                                 </children>
-                                 <VBox.margin>
-                                    <Insets top="5.0" />
-                                 </VBox.margin>
-                              </HBox>
-                              <HBox>
-                                 <children>
-                                    <Label text="Pays de production:">
-                                       <HBox.margin>
-                                          <Insets bottom="5.0" left="5.0" top="5.0" />
-                                       </HBox.margin>
-                                    </Label>
-                                    <TextField fx:id="txt_Search_Pays" promptText="Canada, États-Unis, France, etc." HBox.hgrow="ALWAYS">
-                                       <HBox.margin>
-                                          <Insets left="5.0" right="5.0" />
-                                       </HBox.margin>
-                                    </TextField>
-                                 </children>
-                                 <VBox.margin>
-                                    <Insets top="5.0" />
-                                 </VBox.margin>
-                              </HBox>
-                              <HBox>
-                                 <children>
-                                    <Label text="Langue originale:">
-                                       <HBox.margin>
-                                          <Insets bottom="5.0" left="5.0" top="5.0" />
-                                       </HBox.margin>
-                                    </Label>
-                                    <TextField fx:id="txt_Search_Langue" promptText="Français, Anglais, Espagnol, ect." HBox.hgrow="ALWAYS">
-                                       <HBox.margin>
-                                          <Insets left="5.0" right="5.0" />
-                                       </HBox.margin>
-                                    </TextField>
-                                 </children>
-                                 <VBox.margin>
-                                    <Insets top="5.0" />
-                                 </VBox.margin>
-                              </HBox>
-                              <HBox>
-                                 <children>
-                                    <Label text="Genres:">
-                                       <HBox.margin>
-                                          <Insets bottom="5.0" left="5.0" top="5.0" />
-                                       </HBox.margin>
-                                    </Label>
-                                    <TextField fx:id="txt_Search_Genres" promptText="Comedy, Action, Drama, ect." HBox.hgrow="ALWAYS">
-                                       <HBox.margin>
-                                          <Insets left="5.0" right="5.0" />
-                                       </HBox.margin>
-                                    </TextField>
-                                 </children>
-                                 <VBox.margin>
-                                    <Insets top="5.0" />
-                                 </VBox.margin>
-                              </HBox>
-                              <HBox>
-                                 <children>
-                                    <Label text="Réalisateur:">
-                                       <HBox.margin>
-                                          <Insets bottom="5.0" left="5.0" top="5.0" />
-                                       </HBox.margin>
-                                    </Label>
-                                    <TextField fx:id="txt_Search_Realisateur" promptText="PrénomRéal et/ou NomRéal" HBox.hgrow="ALWAYS">
-                                       <HBox.margin>
-                                          <Insets left="5.0" right="5.0" />
-                                       </HBox.margin>
-                                    </TextField>
-                                 </children>
-                                 <VBox.margin>
-                                    <Insets top="5.0" />
-                                 </VBox.margin>
-                              </HBox>
-                              <HBox>
-                                 <children>
-                                    <Label text="Acteurs:">
-                                       <HBox.margin>
-                                          <Insets bottom="5.0" left="5.0" top="5.0" />
-                                       </HBox.margin>
-                                    </Label>
-                                    <TextField fx:id="txt_Search_Acteurs" promptText="Prénom1 et/ou Nom1, Prénom2 et/ou Nom2, ect." HBox.hgrow="ALWAYS">
-                                       <HBox.margin>
-                                          <Insets left="5.0" right="5.0" />
-                                       </HBox.margin>
-                                    </TextField>
-                                 </children>
-                                 <VBox.margin>
-                                    <Insets top="5.0" />
-                                 </VBox.margin>
-                              </HBox>
-                           </children>
-                        </VBox>
-                        <Button fx:id="btn_Rechercher" mnemonicParsing="false" onAction="#clickBtnRechercher" text="Rechercher" />
+                        <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+                          <tabs>
+                            <Tab text="Films">
+                                 <content>
+                                    <VBox prefHeight="262.0" prefWidth="395.0">
+                                       <children>
+                                          <HBox>
+                                             <children>
+                                                <Label text="Titre:">
+                                                   <HBox.margin>
+                                                      <Insets bottom="5.0" left="5.0" top="5.0" />
+                                                   </HBox.margin>
+                                                </Label>
+                                                <TextField fx:id="txt_Search_Titre" promptText="Titre du film" HBox.hgrow="ALWAYS">
+                                                   <HBox.margin>
+                                                      <Insets left="5.0" right="5.0" />
+                                                   </HBox.margin>
+                                                </TextField>
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets top="5.0" />
+                                             </VBox.margin>
+                                          </HBox>
+                                          <HBox>
+                                             <children>
+                                                <Label prefWidth="150.0" text="Année de sortie:">
+                                                   <HBox.margin>
+                                                      <Insets bottom="5.0" left="5.0" top="5.0" />
+                                                   </HBox.margin>
+                                                </Label>
+                                                <TextField fx:id="txt_Search_anMin" prefWidth="150.0" promptText="annéeMin" HBox.hgrow="ALWAYS">
+                                                   <HBox.margin>
+                                                      <Insets left="5.0" right="5.0" />
+                                                   </HBox.margin>
+                                                </TextField>
+                                                <TextField fx:id="txt_Search_anMax" prefWidth="150.0" promptText="annéeMax">
+                                                   <HBox.margin>
+                                                      <Insets right="5.0" />
+                                                   </HBox.margin>
+                                                </TextField>
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets top="5.0" />
+                                             </VBox.margin>
+                                          </HBox>
+                                          <HBox>
+                                             <children>
+                                                <Label text="Pays de production:">
+                                                   <HBox.margin>
+                                                      <Insets bottom="5.0" left="5.0" top="5.0" />
+                                                   </HBox.margin>
+                                                </Label>
+                                                <TextField fx:id="txt_Search_Pays" promptText="Canada, États-Unis, France, etc." HBox.hgrow="ALWAYS">
+                                                   <HBox.margin>
+                                                      <Insets left="5.0" right="5.0" />
+                                                   </HBox.margin>
+                                                </TextField>
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets top="5.0" />
+                                             </VBox.margin>
+                                          </HBox>
+                                          <HBox>
+                                             <children>
+                                                <Label text="Langue originale:">
+                                                   <HBox.margin>
+                                                      <Insets bottom="5.0" left="5.0" top="5.0" />
+                                                   </HBox.margin>
+                                                </Label>
+                                                <TextField fx:id="txt_Search_Langue" promptText="Français, Anglais, Espagnol, ect." HBox.hgrow="ALWAYS">
+                                                   <HBox.margin>
+                                                      <Insets left="5.0" right="5.0" />
+                                                   </HBox.margin>
+                                                </TextField>
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets top="5.0" />
+                                             </VBox.margin>
+                                          </HBox>
+                                          <HBox>
+                                             <children>
+                                                <Label text="Genres:">
+                                                   <HBox.margin>
+                                                      <Insets bottom="5.0" left="5.0" top="5.0" />
+                                                   </HBox.margin>
+                                                </Label>
+                                                <TextField fx:id="txt_Search_Genres" promptText="Comedy, Action, Drama, ect." HBox.hgrow="ALWAYS">
+                                                   <HBox.margin>
+                                                      <Insets left="5.0" right="5.0" />
+                                                   </HBox.margin>
+                                                </TextField>
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets top="5.0" />
+                                             </VBox.margin>
+                                          </HBox>
+                                          <HBox>
+                                             <children>
+                                                <Label text="Réalisateur:">
+                                                   <HBox.margin>
+                                                      <Insets bottom="5.0" left="5.0" top="5.0" />
+                                                   </HBox.margin>
+                                                </Label>
+                                                <TextField fx:id="txt_Search_Realisateur" promptText="PrénomRéal et/ou NomRéal" HBox.hgrow="ALWAYS">
+                                                   <HBox.margin>
+                                                      <Insets left="5.0" right="5.0" />
+                                                   </HBox.margin>
+                                                </TextField>
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets top="5.0" />
+                                             </VBox.margin>
+                                          </HBox>
+                                          <HBox>
+                                             <children>
+                                                <Label text="Acteurs:">
+                                                   <HBox.margin>
+                                                      <Insets bottom="5.0" left="5.0" top="5.0" />
+                                                   </HBox.margin>
+                                                </Label>
+                                                <TextField fx:id="txt_Search_Acteurs" promptText="Prénom1 et/ou Nom1, Prénom2 et/ou Nom2, ect." HBox.hgrow="ALWAYS">
+                                                   <HBox.margin>
+                                                      <Insets left="5.0" right="5.0" />
+                                                   </HBox.margin>
+                                                </TextField>
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets top="5.0" />
+                                             </VBox.margin>
+                                          </HBox>
+                                          <HBox alignment="CENTER">
+                                             <children>
+                                                <Button fx:id="btn_Rechercher" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#clickBtnRechercher" text="Rechercher" />
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                             </VBox.margin>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                 </content>
+                              </Tab>
+                            <Tab text="Locations">
+                                 <content>
+                                    <VBox prefHeight="200.0" prefWidth="100.0">
+                                       <children>
+                                          <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                             <children>
+                                                <Label text="Groupe d'âge: ">
+                                                   <HBox.margin>
+                                                      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                   </HBox.margin>
+                                                </Label>
+                                                <VBox>
+                                                   <children>
+                                                      <HBox>
+                                                         <children>
+                                                            <RadioButton fx:id="age1820" mnemonicParsing="false" text="18-20">
+                                                               <toggleGroup>
+                                                                  <ToggleGroup fx:id="grAge" />
+                                                               </toggleGroup></RadioButton>
+                                                            <RadioButton fx:id="age2125" mnemonicParsing="false" text="21-25" toggleGroup="$grAge" />
+                                                            <RadioButton fx:id="age2630" mnemonicParsing="false" text="26-30" toggleGroup="$grAge" />
+                                                            <RadioButton fx:id="age3135" mnemonicParsing="false" text="31-35" toggleGroup="$grAge" />
+                                                         </children>
+                                                         <VBox.margin>
+                                                            <Insets bottom="5.0" top="5.0" />
+                                                         </VBox.margin>
+                                                      </HBox>
+                                                      <HBox>
+                                                         <children>
+                                                            <RadioButton fx:id="age3640" mnemonicParsing="false" text="36-40" toggleGroup="$grAge" />
+                                                            <RadioButton fx:id="age4145" mnemonicParsing="false" text="41-45" toggleGroup="$grAge" />
+                                                            <RadioButton fx:id="age4650" mnemonicParsing="false" text="46-50" toggleGroup="$grAge" />
+                                                            <RadioButton fx:id="age5155" mnemonicParsing="false" text="51-55" toggleGroup="$grAge" />
+                                                         </children>
+                                                         <VBox.margin>
+                                                            <Insets bottom="5.0" />
+                                                         </VBox.margin>
+                                                      </HBox>
+                                                      <HBox>
+                                                         <children>
+                                                            <RadioButton fx:id="age5660" mnemonicParsing="false" text="56-60" toggleGroup="$grAge" />
+                                                            <RadioButton fx:id="age6165" mnemonicParsing="false" text="61-65" toggleGroup="$grAge" />
+                                                            <RadioButton fx:id="age6670" mnemonicParsing="false" text="66-70" toggleGroup="$grAge" />
+                                                            <RadioButton fx:id="age70plus" mnemonicParsing="false" text="70+" toggleGroup="$grAge" />
+                                                         </children>
+                                                      </HBox>
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER" prefHeight="60.0" prefWidth="200.0">
+                                             <children>
+                                                <Label text="Province: " />
+                                                <TextField fx:id="province" prefHeight="27.0" prefWidth="300.0" promptText="Québec, Ottawa, ..." />
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </VBox.margin>
+                                          </HBox>
+                                          <HBox alignment="CENTER" prefHeight="60.0" prefWidth="200.0">
+                                             <VBox.margin>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </VBox.margin>
+                                             <children>
+                                                <Label text="Jour de la semaine: " />
+                                                <TextField fx:id="jourSemaine" prefHeight="27.0" prefWidth="240.0" promptText="Lundi, Mardi, Mercredi, ..." />
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER" prefHeight="60.0" prefWidth="200.0">
+                                             <VBox.margin>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </VBox.margin>
+                                             <children>
+                                                <Label text="Mois de l'année: " />
+                                                <TextField fx:id="moisAnnee" prefHeight="27.0" prefWidth="260.0" promptText="Janvier, Février, Mars, ..." />
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER" prefHeight="60.0" prefWidth="200.0">
+                                             <children>
+                                                <TextField fx:id="analyseNbLocations" editable="false" prefHeight="27.0" prefWidth="100.0" promptText="Nb locations" />
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </VBox.margin>
+                                          </HBox>
+                                          <HBox alignment="CENTER" prefHeight="60.0" prefWidth="200.0">
+                                             <children>
+                                                <Button fx:id="btn_Recherche_Locations" mnemonicParsing="false" text="Rechercher" />
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </VBox.margin>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                 </content>
+                              </Tab>
+                          </tabs>
+                        </TabPane>
                      </items>
                   </SplitPane>
                   <SplitPane dividerPositions="0.5367892976588629" orientation="VERTICAL" prefHeight="200.0" prefWidth="200.0">
