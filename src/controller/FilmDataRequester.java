@@ -318,24 +318,34 @@ public class FilmDataRequester {
 	public int countAnalyseLocations(String pGrAge, String pProvince, String pJSemaine, String pMAnnee){
 		//On cree la requete avant de se connecter
 		// TODO : Paul, effectuer la requete SQL dans la BD pour retrouver le nombre de locations
+		System.out.println(pGrAge + "\t" + pProvince + "\t" + pJSemaine + "\t" + pMAnnee);
+		boolean needAnd = false;
 		String sql = "SELECT COUNT(*) FROM FaitLocation";
 		
 		if(!(pGrAge.isEmpty() || pProvince.isEmpty() || pJSemaine.isEmpty() || pMAnnee.isEmpty())){
 			sql += " WHERE ";
 		}
 		if(!(pGrAge.isEmpty())){
+			if(needAnd) sql += "and ";
+			
 			
 		}
 		if(!(pProvince.isEmpty())){
+			if(needAnd) sql += "and ";
 			
 		}
 		if(!(pJSemaine.isEmpty())){
+			if(needAnd) sql += "and ";
 			
 		}
 		if(!(pMAnnee.isEmpty())){
+			if(needAnd) sql += "and ";
 			sql += " ";
 		}
-				
+		
+		
+			
+		/*
 		//On commence la connexion
 		Connection c;
 		try {
@@ -343,7 +353,7 @@ public class FilmDataRequester {
 			c.setAutoCommit(true);
 			
 			//CE QUE TU AVAIS FAIT POUR GETRECOMMANDATIONS		
-			String sql = "select TITLE from VUE_CORRELATION v, FILM f where v.FILM1 =? and v.FILM2 = f.FILMID and not EXISTS (select 1 from copy where copy.USERID =? and copy.FILMID=v.FILM2) order by CORRELATION desc fetch first 3 rows only";
+			String sql = "";
 			PreparedStatement stm = c.prepareStatement(sql);
 			stm.setInt(1, filmid);
 			stm.setInt(2, clientid);
@@ -361,6 +371,7 @@ public class FilmDataRequester {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
+		*/
 		return 0;
 	}
 	

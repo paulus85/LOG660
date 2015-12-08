@@ -162,7 +162,7 @@ public class AppController implements Initializable{
 	
 	private ArtistDataRequester aDataRequester;
 	private FilmDataRequester fDataRequester;
-	private LocationAnalyser lAnalyser;
+	//private LocationAnalyser lAnalyser;
 	private Film currentFilm;
 	
     /* ----------
@@ -383,7 +383,6 @@ public class AppController implements Initializable{
 			//updateRealisateurBtn(aDataRequester.getRealisateurByFilm(selectedFilmIndex));
 			//populateListScenariste(aDataRequester.getScenaristsByFilm(selectedFilmIndex));
 			
-			// TODO : Changer le HASHMAP pour une Liste<String>
 			populateListRecommandations(fDataRequester.getRecommendations(selectedFilm.getFilmId(), currentUserInfo.getUserId()));
 			
 			System.out.println(selectedFilmIndex);
