@@ -322,46 +322,47 @@ public class FilmDataRequester {
 		boolean needAnd = false;
 		String sql = "SELECT COUNT(*) FROM FaitLocation";
 		
-		if(!(pGrAge.isEmpty() || pProvince.isEmpty() || pJSemaine.isEmpty() || pMAnnee.isEmpty())){
+		if(!(pGrAge.isEmpty() && pProvince.isEmpty() && pJSemaine.isEmpty() && pMAnnee.isEmpty())){
 			sql += " WHERE ";
 		}
 		if(!(pGrAge.isEmpty())){
 			if(needAnd) sql += "and ";
-			
-			
+			sql += "IDCLIENT in (select idclient from DIMENSIONCLIENT where GROUPEAGE = '" + pGrAge + "') ";
+			needAnd = true;
 		}
 		if(!(pProvince.isEmpty())){
 			if(needAnd) sql += "and ";
-			
+			sql += "idclient in (select idclient from dimensionclient where province = '"+ pProvince +"') ";
+			needAnd = true;
 		}
 		if(!(pJSemaine.isEmpty())){
 			if(needAnd) sql += "and ";
-			
+			sql += "iddatelocation in (select iddatelocation from dimensiondatelocation where jour='" + pJSemaine +"') ";
+			needAnd = true;
 		}
 		if(!(pMAnnee.isEmpty())){
 			if(needAnd) sql += "and ";
-			sql += " ";
+			sql += "iddatelocation in (select iddatelocation from dimensiondatelocation where annee='" + pMAnnee +"') ";
+			needAnd = true;
 		}
 		
-		
+		System.out.println("Requete : " + sql);
 			
-		/*
+		
 		//On commence la connexion
 		Connection c;
+		int res = 0;
 		try {
 			c = connectionBD();
 			c.setAutoCommit(true);
 			
 			//CE QUE TU AVAIS FAIT POUR GETRECOMMANDATIONS		
-			String sql = "";
+			
 			PreparedStatement stm = c.prepareStatement(sql);
-			stm.setInt(1, filmid);
-			stm.setInt(2, clientid);
 			
 			ResultSet rs = stm.executeQuery();
 			while(rs.next()) {
-				String filmName = rs.getString(1);
-				res.add(filmName);
+				res = rs.getInt(1);
 			}
 			
 			c.close();
@@ -371,7 +372,7 @@ public class FilmDataRequester {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
-		*/
+		
 		return 0;
 	}
 	

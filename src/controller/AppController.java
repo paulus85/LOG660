@@ -150,7 +150,7 @@ public class AppController implements Initializable{
     @FXML // fx:id="analyseNbLocations"
     private TextField analyseNbLocations; // Value injected by FXMLLoader
     @FXML // fx:id="btn_Analyse_Locations"
-    private TextField btn_Analyse_Locations; // Value injected by FXMLLoader
+    private Button btn_Analyse_Locations; // Value injected by FXMLLoader
     /* ----------------------------------------------------------------- */
     
 
@@ -291,7 +291,7 @@ public class AppController implements Initializable{
     	}else{
     		//On demande a compter le nombre de locations qualifiees
     		int nbLocations = fDataRequester.countAnalyseLocations(	
-    												grAge.getSelectedToggle().toString(),
+    												((RadioButton)grAge.getSelectedToggle()).getText(),
     												analyseProvince.getText(),
     												analyseJSemaine.getText(),
     												analyseMAnnee.getText());

@@ -250,7 +250,7 @@
                                           <HBox alignment="CENTER" prefHeight="60.0" prefWidth="200.0">
                                              <children>
                                                 <Label text="Province: " />
-                                                <TextField fx:id="province" prefHeight="27.0" prefWidth="300.0" promptText="Québec, Ottawa, ..." />
+                                                <TextField fx:id="analyseProvince" prefHeight="27.0" prefWidth="300.0" promptText="Québec, Ottawa, ..." />
                                              </children>
                                              <VBox.margin>
                                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -262,7 +262,7 @@
                                              </VBox.margin>
                                              <children>
                                                 <Label text="Jour de la semaine: " />
-                                                <TextField fx:id="jourSemaine" prefHeight="27.0" prefWidth="240.0" promptText="Lundi, Mardi, Mercredi, ..." />
+                                                <TextField fx:id="analyseJSemaine" prefHeight="27.0" prefWidth="240.0" promptText="Lundi, Mardi, Mercredi, ..." />
                                              </children>
                                           </HBox>
                                           <HBox alignment="CENTER" prefHeight="60.0" prefWidth="200.0">
@@ -271,7 +271,7 @@
                                              </VBox.margin>
                                              <children>
                                                 <Label text="Mois de l'année: " />
-                                                <TextField fx:id="moisAnnee" prefHeight="27.0" prefWidth="260.0" promptText="Janvier, Février, Mars, ..." />
+                                                <TextField fx:id="analyseMAnnee" prefHeight="27.0" prefWidth="260.0" promptText="Janvier, Février, Mars, ..." />
                                              </children>
                                           </HBox>
                                           <HBox alignment="CENTER" prefHeight="60.0" prefWidth="200.0">
